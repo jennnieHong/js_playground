@@ -14,7 +14,7 @@ function PracticeChallenge() {
       />
 
       {/* 섹션 1: 모든 핵심 CSS 기법을 적용해 보는 종합 마스터 챌린지 */}
-      <section className="study-section">
+      <section id="master-challenge" data-section className="study-section">
         <h2 className="section-title">최종 미션: 스마트 프로필 카드</h2>
         <div className="section-description">
           <p>

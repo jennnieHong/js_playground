@@ -115,6 +115,97 @@
   background: var(--bg-primary);
 }
 
+/* Concepts and Description Styles */
+.concepts {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+/* 나란히 배치될 때 구분되도록 상단 간격 및 악센트 추가 */
+.concepts+.concepts {
+  margin-top: var(--spacing-lg);
+}
+
+.concepts::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  opacity: 0.6;
+}
+
+/* Console Box UI (Global) */
+.console-box {
+  background: #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.console-header {
+  background: #334155;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.console-header .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.console-header .red {
+  background: #ff5f56;
+}
+
+.console-header .yellow {
+  background: #ffbd2e;
+}
+
+.console-header .green {
+  background: #27c93f;
+}
+
+.console-title {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.console-body {
+  padding: 16px;
+  min-height: 100px;
+  background: #0f172a;
+}
+
+.log-content {
+  color: #4ade80;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.concepts p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
 .guide-list li {
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-lg);

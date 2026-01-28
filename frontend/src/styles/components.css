@@ -245,6 +245,7 @@
 
 /* Live Code Editor Styles */
 .live-editor-container {
+  margin-bottom: var(--spacing-lg);
   background: var(--bg-secondary);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -399,16 +400,27 @@
 
 .live-editor-content.vertical-layout {
   grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  /* Preview on top, Code area on bottom */
 }
 
 .vertical-layout .live-editor-preview {
   border-right: none;
   border-bottom: 1px solid var(--bg-primary);
-  min-height: 300px;
+  min-height: 250px;
 }
 
 .vertical-layout .live-editor-code {
-  min-height: 250px;
+  min-height: auto;
+}
+
+.live-editor-code.split-vertical {
+  flex-direction: column;
+  gap: 1px;
+}
+
+.html-both-wrapper .code-textarea {
+  border-top: 1px solid var(--bg-tertiary);
 }
 
 /* Code Editor Wrapper */
@@ -596,7 +608,8 @@
 
 .header-search-input {
   flex: 1;
-  padding: 0.75rem 1rem 0.75rem 2.75rem; /* Icon space */
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  /* Icon space */
   background: rgba(30, 41, 59, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
@@ -636,7 +649,8 @@
 }
 
 .header-search-btn {
-  display: none; /* Icon is now inside the input visually */
+  display: none;
+  /* Icon is now inside the input visually */
 }
 
 .header-search-dropdown {
@@ -644,15 +658,17 @@
   top: calc(100% + 12px);
   right: 0;
   width: 500px;
-  background: rgba(30, 41, 59, 0.85); /* Semi-transparent */
+  background: rgba(30, 41, 59, 0.85);
+  /* Semi-transparent */
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 20px 40px -10px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05); /* Inner glow */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  /* Inner glow */
   z-index: 1000;
   overflow: hidden;
   animation: dropdownReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -664,6 +680,7 @@
     opacity: 0;
     transform: translateY(10px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -930,7 +947,8 @@
 /* 모바일 최적화 */
 @media (max-width: 768px) {
   .scroll-buttons {
-    bottom: 1.5rem; /* 조금 더 높게 */
+    bottom: 1.5rem;
+    /* 조금 더 높게 */
     left: 1rem;
     right: auto;
   }

@@ -7,13 +7,22 @@ import PageProgressDots from './components/PageProgressDots';
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults';
 
-// JS Curriculum Pages
+// JS Curriculum Pages (14 Modules)
 import JsBasicsStudy from './pages/JsBasicsStudy';
-import JsControlFlowStudy from './pages/JsControlFlowStudy';
+import JsBigIntStudy from './pages/JsBigIntStudy';
+import JsTypeConversionStudy from './pages/JsTypeConversionStudy';
+import JsOperatorsStudy from './pages/JsOperatorsStudy';
+import JsConditionalsStudy from './pages/JsConditionalsStudy';
+import JsLoopsStudy from './pages/JsLoopsStudy';
 import JsFunctionsStudy from './pages/JsFunctionsStudy';
-import JsObjectsArraysStudy from './pages/JsObjectsArraysStudy';
-import JsDomEventsStudy from './pages/JsDomEventsStudy';
-import JsAsyncStudy from './pages/JsAsyncStudy';
+import JsArraysStudy from './pages/JsArraysStudy';
+import JsObjectsStudy from './pages/JsObjectsStudy';
+import JsDomManipulationStudy from './pages/JsDomManipulationStudy';
+import JsEventsStudy from './pages/JsEventsStudy';
+import JsAsyncBasicsStudy from './pages/JsAsyncBasicsStudy';
+import JsAsyncFetchStudy from './pages/JsAsyncFetchStudy';
+import JsModernStudy from './pages/JsModernStudy';
+import JsNumberPrecisionStudy from './pages/JsNumberPrecisionStudy';
 
 import './styles/main.css';
 import './styles/navigation.css';
@@ -38,30 +47,23 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchResults />} />
-            
-            {/* JS Basics */}
-            <Route path="/js-basics/variables" element={<JsBasicsStudy />} />
-            <Route path="/js-basics/operators" element={<JsBasicsStudy />} />
-            
-            {/* Control Flow */}
-            <Route path="/js-control/conditionals" element={<JsControlFlowStudy />} />
-            <Route path="/js-control/loops" element={<JsControlFlowStudy />} />
-            
-            {/* Functions */}
-            <Route path="/js-functions/basics" element={<JsFunctionsStudy />} />
-            <Route path="/js-functions/arrow" element={<JsFunctionsStudy />} />
-            
-            {/* Objects & Arrays */}
-            <Route path="/js-objects/arrays" element={<JsObjectsArraysStudy />} />
-            <Route path="/js-objects/objects" element={<JsObjectsArraysStudy />} />
-            
-            {/* DOM & Events */}
-            <Route path="/js-dom/manipulation" element={<JsDomEventsStudy />} />
-            <Route path="/js-dom/events" element={<JsDomEventsStudy />} />
-            
-            {/* Async JS */}
-            <Route path="/js-async/basics" element={<JsAsyncStudy />} />
-            <Route path="/js-async/fetch" element={<JsAsyncStudy />} />
+
+            {/* JS Curriculum Routes */}
+            <Route path="/js/basics" element={<JsBasicsStudy />} />
+            <Route path="/js/bigint" element={<JsBigIntStudy />} />
+            <Route path="/js/conversion" element={<JsTypeConversionStudy />} />
+            <Route path="/js/operators" element={<JsOperatorsStudy />} />
+            <Route path="/js/conditionals" element={<JsConditionalsStudy />} />
+            <Route path="/js/loops" element={<JsLoopsStudy />} />
+            <Route path="/js/functions" element={<JsFunctionsStudy />} />
+            <Route path="/js/arrays" element={<JsArraysStudy />} />
+            <Route path="/js/objects" element={<JsObjectsStudy />} />
+            <Route path="/js/dom-manipulation" element={<JsDomManipulationStudy />} />
+            <Route path="/js/events" element={<JsEventsStudy />} />
+            <Route path="/js/async-basics" element={<JsAsyncBasicsStudy />} />
+            <Route path="/js/async-fetch" element={<JsAsyncFetchStudy />} />
+            <Route path="/js/modern" element={<JsModernStudy />} />
+            <Route path="/js/precision" element={<JsNumberPrecisionStudy />} />
           </Routes>
         </main>
         <ScrollButtons />

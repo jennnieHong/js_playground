@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './PageProgressDots.css';
 
 /**
@@ -9,7 +10,8 @@ import './PageProgressDots.css';
 function PageProgressDots() {
     const [sections, setSections] = useState([]);
     const [activeId, setActiveId] = useState('');
-    
+    const location = useLocation();
+
     // 드래그 상태 관리
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState({ x: null, y: null });
@@ -27,8 +29,10 @@ function PageProgressDots() {
     }, []);
 
     useEffect(() => {
+        // 즉시 실행 및 지연 실행 (컴포넌트 렌더링 대기)
         findSections();
-        const timer = setTimeout(findSections, 100);
+        const timer1 = setTimeout(findSections, 100);
+        const timer2 = setTimeout(findSections, 500);
 
         const observerOptions = {
             root: null,
@@ -49,19 +53,20 @@ function PageProgressDots() {
         sectionNodes.forEach(node => observer.observe(node));
 
         return () => {
-            clearTimeout(timer);
+            clearTimeout(timer1);
+            clearTimeout(timer2);
             observer.disconnect();
         };
-    }, [findSections]);
+    }, [findSections, location.pathname]);
 
     // --- 드래그 핸들러 ---
     const handleStart = (e) => {
         if (e.target.closest('.dot-button')) return; // 점 클릭 시에는 이동 안 함
-        
+
         setIsDragging(true);
         const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-        
+
         const rect = navRef.current.getBoundingClientRect();
         dragOffset.current = {
             x: clientX - rect.left,
@@ -71,10 +76,10 @@ function PageProgressDots() {
 
     const handleMove = useCallback((e) => {
         if (!isDragging) return;
-        
+
         const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-        
+
         setPosition({
             x: clientX - dragOffset.current.x,
             y: clientY - dragOffset.current.y
@@ -88,7 +93,7 @@ function PageProgressDots() {
     // 화면 리사이즈 시 위치 보정 (화면 바깥으로 나가지 않게)
     const handleResize = useCallback(() => {
         if (position.x === null) return;
-        
+
         const rect = navRef.current?.getBoundingClientRect();
         if (!rect) return;
 
@@ -108,7 +113,7 @@ function PageProgressDots() {
             window.addEventListener('touchmove', handleMove);
             window.addEventListener('touchend', handleEnd);
         }
-        
+
         window.addEventListener('resize', handleResize);
 
         return () => {
@@ -139,9 +144,9 @@ function PageProgressDots() {
     } : {};
 
     return (
-        <nav 
+        <nav
             ref={navRef}
-            className={`page-progress-dots ${isDragging ? 'is-dragging' : ''}`} 
+            className={`page-progress-dots ${isDragging ? 'is-dragging' : ''}`}
             style={dragStyle}
             onMouseDown={handleStart}
             onTouchStart={handleStart}
@@ -149,13 +154,13 @@ function PageProgressDots() {
         >
             <div className="dots-container">
                 {sections.map(section => (
-                    <div 
+                    <div
                         key={section.id}
                         className={`dot-wrapper ${activeId === section.id ? 'active' : ''}`}
                         onClick={(e) => scrollToSection(e, section.id)}
                     >
                         <span className="dot-tooltip">{section.title}</span>
-                        <button 
+                        <button
                             className="dot-button"
                             aria-label={`Scroll to ${section.title}`}
                         />

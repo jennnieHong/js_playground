@@ -18,7 +18,7 @@ function SearchResults() {
                 subtitle={query ? `"${query}" 검색 결과 (${results.length}건)` : '검색어를 입력해주세요'}
             />
 
-            <section className="study-section">
+            <section id="results" data-section className="study-section">
                 {results.length > 0 ? (
                     <div className="search-results-grid">
                         {results.map((page) => (

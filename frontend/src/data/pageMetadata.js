@@ -11,7 +11,8 @@ export const pageMetadata = [
         tags: [
             'javascript', '변수', 'variable', 'let', 'const', 'var', 'data types',
             'string', 'number', 'boolean', 'null', 'undefined', 'object', 'symbol', 'bigint',
-            'primitive', 'reference', 'typing', '동적 타이핑'
+            'primitive', 'reference', 'typing', '동적 타이핑', 'autoboxing', 'wrapper object',
+            'constructor', '래퍼 객체', '생성자'
         ],
         description: 'JavaScript의 기본 변수 선언 방식과 7가지 원시 타입을 학습합니다.'
     },
@@ -117,6 +118,35 @@ export const pageMetadata = [
             '서버 통신', 'ajax', 'network'
         ],
         description: 'Fetch API를 사용하여 외부 데이터를 가져오고 서버와 통신하는 방법을 배웁니다.'
+    },
+    {
+        path: '/js-basics/bigint',
+        title: 'BigInt 심화 학습',
+        tags: [
+            'bigint', 'number', 'precision', 'arbitrary-precision', 'n', 'MAX_SAFE_INTEGER',
+            '정밀도', '수학', '금융', '암호학'
+        ],
+        description: 'Number의 한계를 넘어서는 아주 큰 정수를 안전하게 다루는 BigInt를 학습합니다.'
+    },
+    {
+        path: '/js-basics/conversion',
+        title: '데이터 타입 변환',
+        tags: [
+            'type conversion', 'coercion', 'number', 'string', 'boolean', 'parse',
+            'truthy', 'falsy', 'short-circuit', '단락 평가', '||', '&&', '!!',
+            '명시적 변환', '암시적 변환'
+        ],
+        description: '명시적/암시적 형변환의 규칙과 Truthy & Falsy의 실전 활용 패턴을 마스터합니다.'
+    },
+    {
+        path: '/js/precision',
+        title: '숫자 계산 오차와 정밀도',
+        tags: [
+            'number', 'precision', 'floating point', 'IEEE 754', '0.1+0.2',
+            'Number.EPSILON', 'toFixed', 'math', '정밀도', '계산 오차',
+            'safe integer', 'MAX_SAFE_INTEGER', 'Infinity', 'NaN'
+        ],
+        description: '부동 소수점 오차의 원인과 Number.EPSILON, 정수 확장 등 실전 해결책을 학습합니다.'
     }
 ];
 

@@ -9,18 +9,18 @@ import { useState, useEffect, useRef } from 'react';
  * @param {string} props.initialCss - Initial CSS code
  * @param {string} props.scopeId - Unique ID to scope the styles
  */
-function LiveCodeEditor({ 
-  preview, 
-  initialCss, 
-  initialHtml, 
+function LiveCodeEditor({
+  preview,
+  initialCss,
+  initialHtml,
   initialJs,
-  currentCss, 
-  currentHtml, 
+  currentCss,
+  currentHtml,
   currentJs,
-  scopeId, 
-  height, 
-  previewHeight, 
-  codeHeight 
+  scopeId,
+  height,
+  previewHeight,
+  codeHeight
 }) {
   const [draftCss, setDraftCss] = useState(initialCss || '');
   const [appliedCss, setAppliedCss] = useState(initialCss || '');
@@ -28,12 +28,12 @@ function LiveCodeEditor({
   const [appliedHtml, setAppliedHtml] = useState(initialHtml || '');
   const [draftJs, setDraftJs] = useState(initialJs || '');
   const [appliedJs, setAppliedJs] = useState(initialJs || '');
-  
+
   // Default to 'js' tab for the new curriculum
-  const [activeTab, setActiveTab] = useState(initialJs ? 'js' : 'html+css'); 
+  const [activeTab, setActiveTab] = useState(initialJs ? 'js' : 'html');
   const [renderKey, setRenderKey] = useState(0);
   const styleRef = useRef(null);
-  
+
   // Sync refs for external updates
   const lastSyncedCss = useRef(currentCss);
   const lastSyncedHtml = useRef(currentHtml);
@@ -66,9 +66,9 @@ function LiveCodeEditor({
     }
   }, [currentJs, draftJs, appliedJs]);
 
-  // CSS Scoping Logic (kept from previous version)
+  // CSS Scoping Logic (Keep if initialCss exists for backwards compatibility, but hidden in UI)
   useEffect(() => {
-    if (styleRef.current) {
+    if (styleRef.current && appliedCss) {
       const scoper = (css, prefix) => {
         if (!css) return '';
         let processedCss = css;
@@ -150,6 +150,13 @@ function LiveCodeEditor({
 
       container.querySelectorAll('.injected-script').forEach(s => s.remove());
 
+      // Explicitly clear logs on every re-render of the preview
+      const logContent = container.querySelector('[data-ref="logContent"]');
+      if (logContent) {
+        logContent.innerText = '';
+        logContent.style.color = 'var(--text-secondary)'; // Reset color
+      }
+
       const createScript = (content) => {
         const script = document.createElement('script');
         script.className = 'injected-script';
@@ -158,15 +165,25 @@ function LiveCodeEditor({
             (function(containerId) {
               const _ctx = document.getElementById(containerId);
               if (!_ctx) return;
+              
               const pick = (s) => _ctx.querySelector(s);
               const pickAll = (s) => Array.from(_ctx.querySelectorAll(s));
               _ctx.__pick = pick; _ctx.__pickAll = pickAll;
+              
               const log = (msg, isErr = false) => {
                 const content = _ctx.querySelector('[data-ref="logContent"]');
                 const led = _ctx.querySelector('[data-ref="diagnosticLed"]');
                 if (content) {
-                  content.innerText = typeof msg === 'object' ? '> ' + JSON.stringify(msg) : '> ' + msg;
+                  const formattedMsg = typeof msg === 'object' ? JSON.stringify(msg, null, 2) : msg;
+                  const prefix = content.innerText ? '\\n> ' : '> ';
+                  content.innerText += prefix + formattedMsg;
                   content.style.color = isErr ? '#f87171' : '#4ade80';
+                  
+                  // Auto-scroll to bottom of the preview area
+                  const scrollContainer = _ctx.closest('.preview-scroll');
+                  if (scrollContainer) {
+                    scrollContainer.scrollTop = scrollContainer.scrollHeight;
+                  }
                 }
                 if (led) {
                   led.style.background = isErr ? '#ef4444' : '#fde047';
@@ -179,7 +196,7 @@ function LiveCodeEditor({
             const container = document.getElementById("${scopeId}");
             const content = container ? container.querySelector('[data-ref="logContent"]') : null;
             if (content) {
-              content.innerText = "> Runtime Error: " + err.message;
+              content.innerText += (content.innerText ? "\\n" : "") + "> Runtime Error: " + err.message;
               content.style.color = "#f87171";
             }
           }
@@ -208,6 +225,7 @@ function LiveCodeEditor({
     setDraftHtml(initialHtml || ''); setAppliedHtml(initialHtml || '');
     setDraftJs(initialJs || ''); setAppliedJs(initialJs || '');
     lastSyncedCss.current = initialCss; lastSyncedHtml.current = initialHtml; lastSyncedJs.current = initialJs;
+    setRenderKey(prev => prev + 1); // Force re-render on reset
   };
 
   const handleApply = () => {
@@ -237,10 +255,16 @@ function LiveCodeEditor({
             JavaScript
           </button>
           <button
-            className={`tab-btn ${activeTab === 'html+css' ? 'active' : ''}`}
-            onClick={() => setActiveTab('html+css')}
+            className={`tab-btn ${activeTab === 'both' ? 'active' : ''}`}
+            onClick={() => setActiveTab('both')}
           >
-            HTML + CSS
+            Both
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'html' ? 'active' : ''}`}
+            onClick={() => setActiveTab('html')}
+          >
+            HTML
           </button>
         </div>
         <div className="live-editor-actions">
@@ -249,7 +273,7 @@ function LiveCodeEditor({
         </div>
       </div>
 
-      <div className="live-editor-content" style={height ? { height } : undefined}>
+      <div className={`live-editor-content ${activeTab === 'both' ? 'vertical-layout' : ''}`} style={height ? { height } : undefined}>
         <div className="live-editor-preview" id={scopeId} style={previewHeight ? { height: previewHeight } : undefined}>
           <div className="preview-viewport" style={{ transform: 'translateZ(0)', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
             <div className="preview-scroll" style={{ width: '100%', height: '100%', overflow: 'auto', padding: '1.5rem', background: '#ffffff' }}>
@@ -259,8 +283,8 @@ function LiveCodeEditor({
           </div>
         </div>
 
-        <div className="live-editor-code" style={codeHeight ? { height: codeHeight } : undefined}>
-          {activeTab === 'js' && (
+        <div className={`live-editor-code ${activeTab === 'both' ? 'split-vertical' : ''}`} style={codeHeight ? { height: codeHeight } : undefined}>
+          {(activeTab === 'js' || activeTab === 'both') && (
             <div className="code-editor-wrapper">
               <button className="copy-btn" onClick={() => handleCopy('js', draftJs)}>
                 {copiedType === 'js' ? '✓ Copied!' : '📋 Copy JS'}
@@ -275,32 +299,18 @@ function LiveCodeEditor({
             </div>
           )}
 
-          {activeTab === 'html+css' && (
-            <div className="code-editor-split">
-              <div className="code-editor-wrapper half">
-                <button className="copy-btn" onClick={() => handleCopy('html', draftHtml)}>
-                  {copiedType === 'html' ? '✓ Copied' : '📋 HTML'}
-                </button>
-                <textarea
-                  className="code-textarea html-editor"
-                  value={draftHtml}
-                  onChange={(e) => setDraftHtml(e.target.value)}
-                  spellCheck="false"
-                  placeholder="<!-- HTML -->"
-                />
-              </div>
-              <div className="code-editor-wrapper half">
-                <button className="copy-btn" onClick={() => handleCopy('css', draftCss)}>
-                  {copiedType === 'css' ? '✓ Copied' : '📋 CSS'}
-                </button>
-                <textarea
-                  className="code-textarea css-editor"
-                  value={draftCss}
-                  onChange={(e) => setDraftCss(e.target.value)}
-                  spellCheck="false"
-                  placeholder="/* CSS */"
-                />
-              </div>
+          {(activeTab === 'html' || activeTab === 'both') && (
+            <div className={`code-editor-wrapper ${activeTab === 'both' ? 'html-both-wrapper' : ''}`}>
+              <button className="copy-btn" onClick={() => handleCopy('html', draftHtml)}>
+                {copiedType === 'html' ? '✓ Copied' : '📋 Copy HTML'}
+              </button>
+              <textarea
+                className="code-textarea html-editor"
+                value={draftHtml}
+                onChange={(e) => setDraftHtml(e.target.value)}
+                spellCheck="false"
+                placeholder="<!-- HTML (including <style> tags) -->"
+              />
             </div>
           )}
         </div>

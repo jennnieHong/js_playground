@@ -14,7 +14,7 @@ function HidingMethodsStudy() {
       />
 
       {/* 섹션 1: 주요 숨기기 속성(display, visibility, opacity) 비교 */}
-      <section className="study-section">
+      <section id="comparison" data-section className="study-section">
         <h2 className="section-title">대표적인 3가지 방법 비교</h2>
         <div className="section-description">
           <p>
@@ -140,7 +140,7 @@ function HidingMethodsStudy() {
       </section>
 
       {/* 섹션 2: 웹 접근성을 고려한 시각적 숨기기 (sr-only) */}
-      <section className="study-section">
+      <section id="accessibility" data-section className="study-section">
         <h2 className="section-title">스크린 리더 전용 숨기기 (sr-only)</h2>
         <div className="section-description">
           <p>
@@ -197,7 +197,7 @@ function HidingMethodsStudy() {
       </section>
 
       {/* 섹션 3: 상황별 숨기기 기법 요약 및 활용 가이드 */}
-      <section className="study-section">
+      <section id="summary" data-section className="study-section">
         <h2 className="section-title">요약 및 추천 활용처</h2>
         <div className="section-description">
           <ul className="description-list">
@@ -210,7 +210,7 @@ function HidingMethodsStudy() {
         </div>
       </section>
       {/* 섹션 4: 실전 예제 - 애니메이션이 가능한 숨기기 토글 구현 */}
-      <section className="study-section">
+      <section id="practical-example" data-section className="study-section">
         <h2 className="section-title">실전 예제: 애니메이션 토글 카드</h2>
         <p className="section-description">
           <code>display: none</code>은 애니메이션이 불가능합니다.

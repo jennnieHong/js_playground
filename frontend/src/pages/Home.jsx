@@ -29,7 +29,7 @@ function Home() {
       id: 1,
       label: '소개',
       content: (
-        <div className="content-section">
+        <section id="introduction" data-section className="content-section">
           <h2>JavaScript Study에 오신 것을 환영합니다!</h2>
           <p>이 웹사이트는 모던 자바스크립트를 체계적으로 학습할 수 있도록 설계되었습니다.</p>
           <ul className="feature-list">
@@ -38,14 +38,14 @@ function Home() {
             <li>🎯 실전 예제와 인터랙티브 예제</li>
             <li>💡 최신 ES6+ 문법 완벽 대응</li>
           </ul>
-        </div>
+        </section>
       )
     },
     {
       id: 2,
       label: '학습 가이드',
       content: (
-        <div className="content-section">
+        <section id="guide" data-section className="content-section">
           <h2>학습 가이드</h2>
           <ol className="guide-list">
             <li>
@@ -61,14 +61,14 @@ function Home() {
               <p>DOM 조작, 이벤트 핸들링, 비동기 프로그래밍을 마스터합니다.</p>
             </li>
           </ol>
-        </div>
+        </section>
       )
     },
     {
       id: 3,
       label: '컴포넌트 데모',
       content: (
-        <div className="content-section">
+        <section id="demo" data-section className="content-section">
           <h2>UI 컴포넌트 테스트</h2>
           <p>애플리케이션 내에서 공용으로 사용되는 팝업 컴포넌트들입니다:</p>
           <div className="demo-buttons">
@@ -82,7 +82,7 @@ function Home() {
               Search 열기
             </button>
           </div>
-        </div>
+        </section>
       )
     }
   ];

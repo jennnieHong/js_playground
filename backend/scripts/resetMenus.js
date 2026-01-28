@@ -29,88 +29,28 @@ db.serialize(() => {
     }
   });
 
-  // 3. 초기 메뉴 다시 추가 (새로운 분류 체계)
+  // 3. 초기 메뉴 다시 추가 (JS 커리큘럼 중심)
   const menuStructure = [
     {
-      title: 'Fundamental Basics',
-      icon: '🏛️',
+      title: 'JavaScript Curriculum',
+      icon: '📜',
       order: 1,
       children: [
-        { title: 'Display Study', path: '/display', icon: '📐', order: 1 },
-        { title: 'Box Model Study', path: '/box-model', icon: '📦', order: 2 },
-        { title: 'Units & Sizing', path: '/units', icon: '📏', order: 3 },
-        { title: 'Viewport Units', path: '/viewport-units', icon: '📱', order: 4 },
-        { title: 'Position Study', path: '/position', icon: '📍', order: 5 },
-        { title: 'Relative & Absolute', path: '/relative-absolute', icon: '🎯', order: 6 },
-        { title: 'Height & Sizing', path: '/height', icon: '📐', order: 7 },
-        { title: 'Float & Clear Study', path: '/float', icon: '🌊', order: 8 },
-        { title: 'Logical Properties', path: '/logical-properties', icon: '🌐', order: 9 },
-      ]
-    },
-    {
-      title: 'Layout Mastery',
-      icon: '📐',
-      order: 2,
-      children: [
-        { title: 'Flexbox Study', path: '/flexbox', icon: '📦', order: 1 },
-        { title: 'Grid Study', path: '/grid', icon: '⚡', order: 2 },
-        { title: 'Responsive Study', path: '/responsive', icon: '📱', order: 3 },
-        { title: 'Container Queries', path: '/container-queries', icon: '📦', order: 4 },
-      ]
-    },
-    {
-      title: 'Visual Design',
-      icon: '🎨',
-      order: 3,
-      children: [
-        { title: 'Colors & Backgrounds', path: '/colors', icon: '🌈', order: 1 },
-        { title: 'Typography', path: '/typography', icon: '✍️', order: 2 },
-        { title: 'Custom Properties', path: '/custom-properties', icon: '🎛️', order: 3 },
-        { title: 'Hiding Methods', path: '/hiding', icon: '👻', order: 4 },
-      ]
-    },
-    {
-      title: 'Selectors & States',
-      icon: '🎯',
-      order: 4,
-      children: [
-        { title: 'CSS Selectors & Naming', path: '/selectors-basics', icon: '🔤', order: 1 },
-        { title: 'States & Pseudo-classes', path: '/interaction', icon: '🔄', order: 2 },
-        { title: 'Modal & Popup 패턴', path: '/modal-pattern', icon: '🪟', order: 3 },
-        { title: 'Pseudo Elements', path: '/pseudo-elements', icon: '::', order: 4 },
-        { title: 'Modern Selectors', path: '/selectors', icon: '🎯', order: 5 },
-        { title: 'Specificity (명시도)', path: '/specificity', icon: '⚖️', order: 6 },
-        { title: 'Color 상속과 적용', path: '/color-inheritance', icon: '🎨', order: 7 },
-      ]
-    },
-    {
-      title: 'Motion & Forms',
-      icon: '✨',
-      order: 5,
-      children: [
-        { title: 'CSS Animations', path: '/animation-new', icon: '✨', order: 1 },
-        { title: 'Animation (Legacy)', path: '/animation-old', icon: '🎬', order: 2 },
-        { title: 'Form Styling', path: '/forms', icon: '📝', order: 3 },
-      ]
-    },
-    {
-      title: 'Advanced & Performance',
-      icon: '⚡',
-      order: 6,
-      children: [
-        { title: 'Stacking & Layers', path: '/stacking', icon: '📚', order: 1 },
-        { title: 'Accessibility (A11y)', path: '/accessibility', icon: '♿', order: 2 },
-        { title: 'Performance & Rendering', path: '/performance', icon: '⚡', order: 3 },
-        { title: 'CSS Architecture', path: '/architecture', icon: '🏗️', order: 4 },
-        { title: 'Attributes & JS', path: '/attributes-js', icon: '⚙️', order: 5 },
-      ]
-    },
-    {
-      title: 'Master Mission',
-      icon: '🚩',
-      order: 7,
-      children: [
-        { title: 'Master Challenge', path: '/challenge', icon: '🏆', order: 1 },
+        { title: '1. Variables & Syntax', path: '/js/basics', icon: '💎', order: 1 },
+        { title: '2. BigInt Deep Dive', path: '/js/bigint', icon: '🔢', order: 2 },
+        { title: '3. Type Conversion', path: '/js/conversion', icon: '🔄', order: 3 },
+        { title: '4. Operators', path: '/js/operators', icon: '🧮', order: 4 },
+        { title: '5. Conditionals', path: '/js/conditionals', icon: '🛤️', order: 5 },
+        { title: '6. Loops', path: '/js/loops', icon: '🔄', order: 6 },
+        { title: '7. Functions & Closures', path: '/js/functions', icon: '🧩', order: 7 },
+        { title: '8. Arrays Mastery', path: '/js/arrays', icon: '📊', order: 8 },
+        { title: '9. Objects & Props', path: '/js/objects', icon: '🗃️', order: 9 },
+        { title: '10. DOM Manipulation', path: '/js/dom-manipulation', icon: '🖱️', order: 10 },
+        { title: '11. Event Handling', path: '/js/events', icon: '⚡', order: 11 },
+        { title: '12. Async Basics', path: '/js/async-basics', icon: '⏳', order: 12 },
+        { title: '13. Fetch & APIs', path: '/js/async-fetch', icon: '🌐', order: 13 },
+        { title: '14. ES6+ Modern', path: '/js/modern', icon: '🚀', order: 14 },
+        { title: '15. Number Precision', path: '/js/precision', icon: '🎯', order: 15 },
       ]
     }
   ];
