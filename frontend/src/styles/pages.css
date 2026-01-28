@@ -119,10 +119,10 @@
 .concepts {
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-secondary);
   backdrop-filter: blur(8px);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   position: relative;
 }
@@ -141,25 +141,26 @@
   height: 3px;
   background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 /* Console Box UI (Global) */
 .console-box {
-  background: #1e293b;
+  background: var(--bg-secondary);
   border-radius: 8px;
   overflow: hidden;
   font-family: 'Fira Code', 'Courier New', monospace;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
 }
 
 .console-header {
-  background: #334155;
+  background: var(--bg-tertiary);
   padding: 8px 12px;
   display: flex;
   align-items: center;
   gap: 6px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .console-header .dot {
@@ -181,7 +182,7 @@
 }
 
 .console-title {
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 0.75rem;
   margin-left: 4px;
 }
@@ -189,7 +190,7 @@
 .console-body {
   padding: 16px;
   min-height: 100px;
-  background: #0f172a;
+  background: var(--bg-primary);
 }
 
 .log-content {
@@ -589,10 +590,10 @@
 .info-box {
   margin-top: 1rem;
   padding: 1rem;
-  background: #fff3cd;
-  border-left: 4px solid #ffc107;
+  background: var(--bg-tertiary);
+  border-left: 4px solid var(--warning-color);
   border-radius: 4px;
-  color: #856404;
+  color: var(--text-primary);
   font-size: 0.95rem;
   line-height: 1.6;
 }

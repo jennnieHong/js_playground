@@ -6,9 +6,10 @@
   width: var(--nav-width-collapsed); /* 기본적으로 닫힌 상태 */
   height: 100vh;
   background: var(--bg-secondary);
-  border-right: 1px solid var(--bg-tertiary);
-  overflow-y: auto;
-  overflow-x: hidden;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Use inner scroll for menu */
   z-index: 200; /* header search(z-index: 100)보다 위에 */
   box-shadow: var(--shadow-xl);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -160,6 +161,9 @@
 .nav-menu {
   list-style: none;
   padding: var(--spacing-md);
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .nav-item {

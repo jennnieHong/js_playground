@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
+import ThemeToggle from './ThemeToggle';
 
 function Navigation({ isCollapsed, onToggle }) {
   const [menus, setMenus] = useState([]);
@@ -144,6 +145,7 @@ function Navigation({ isCollapsed, onToggle }) {
         <ul className="nav-menu">
           {menus.map(menu => renderMenuItem(menu))}
         </ul>
+        <ThemeToggle isCollapsed={isCollapsed} />
       </nav>
     </>
   );

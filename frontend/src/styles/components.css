@@ -368,15 +368,15 @@
 }
 
 .js-editor {
-  color: #4ade80 !important;
+  color: var(--syntax-js) !important;
 }
 
 .html-editor {
-  color: #fb923c !important;
+  color: var(--syntax-html) !important;
 }
 
 .css-editor {
-  color: #60a5fa !important;
+  color: var(--syntax-css) !important;
 }
 
 .code-editor-split {
@@ -610,14 +610,13 @@
   flex: 1;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
   /* Icon space */
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-primary);
   font-size: 0.95rem;
   outline: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(4px);
 }
 
 /* Add search icon inside input via pseudo-element helper or just style the button */
@@ -639,9 +638,9 @@
 }
 
 .header-search-input:focus {
-  background: rgba(30, 41, 59, 0.9);
+  background: var(--bg-secondary);
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2), 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), var(--shadow-xl);
 }
 
 .header-search-input::placeholder {
@@ -658,16 +657,13 @@
   top: calc(100% + 12px);
   right: 0;
   width: 500px;
-  background: rgba(30, 41, 59, 0.85);
+  background: var(--bg-secondary);
   /* Semi-transparent */
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 20px 40px -10px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-xl);
   /* Inner glow */
   z-index: 1000;
   overflow: hidden;
