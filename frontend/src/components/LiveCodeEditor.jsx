@@ -8,9 +8,13 @@ import { useState, useEffect, useRef } from 'react';
  * @param {React.ReactNode} props.preview - HTML preview content
  * @param {string} props.initialCss - Initial CSS code
  * @param {string} props.scopeId - Unique ID to scope the styles
+ * @param {string} props.height - Overall content height
+ * @param {string} props.previewHeight - Height for the preview area
+ * @param {string} props.codeHeight - Height for the code area (container)
+ * @param {string} props.jsHeight - Specific height for the JS editor
+ * @param {string} props.htmlHeight - Specific height for the HTML editor
  */
 function LiveCodeEditor({
-  preview,
   initialCss,
   initialHtml,
   initialJs,
@@ -20,7 +24,9 @@ function LiveCodeEditor({
   scopeId,
   height,
   previewHeight,
-  codeHeight
+  codeHeight,
+  jsHeight,
+  htmlHeight
 }) {
   const [draftCss, setDraftCss] = useState(initialCss || '');
   const [appliedCss, setAppliedCss] = useState(initialCss || '');
@@ -42,8 +48,10 @@ function LiveCodeEditor({
   // Sync effect for CSS
   useEffect(() => {
     if (currentCss !== undefined && currentCss !== lastSyncedCss.current) {
-      if (draftCss === appliedCss) setDraftCss(currentCss);
-      setAppliedCss(currentCss);
+      queueMicrotask(() => {
+        if (draftCss === appliedCss) setDraftCss(currentCss);
+        setAppliedCss(currentCss);
+      });
       lastSyncedCss.current = currentCss;
     }
   }, [currentCss, draftCss, appliedCss]);
@@ -51,8 +59,10 @@ function LiveCodeEditor({
   // Sync effect for HTML
   useEffect(() => {
     if (currentHtml !== undefined && currentHtml !== lastSyncedHtml.current) {
-      if (draftHtml === appliedHtml) setDraftHtml(currentHtml);
-      setAppliedHtml(currentHtml);
+      queueMicrotask(() => {
+        if (draftHtml === appliedHtml) setDraftHtml(currentHtml);
+        setAppliedHtml(currentHtml);
+      });
       lastSyncedHtml.current = currentHtml;
     }
   }, [currentHtml, draftHtml, appliedHtml]);
@@ -60,8 +70,10 @@ function LiveCodeEditor({
   // Sync effect for JS
   useEffect(() => {
     if (currentJs !== undefined && currentJs !== lastSyncedJs.current) {
-      if (draftJs === appliedJs) setDraftJs(currentJs);
-      setAppliedJs(currentJs);
+      queueMicrotask(() => {
+        if (draftJs === appliedJs) setDraftJs(currentJs);
+        setAppliedJs(currentJs);
+      });
       lastSyncedJs.current = currentJs;
     }
   }, [currentJs, draftJs, appliedJs]);
@@ -244,6 +256,40 @@ function LiveCodeEditor({
 
   const hasChanges = draftCss !== appliedCss || draftHtml !== appliedHtml || draftJs !== appliedJs;
 
+  // --- Automated Height Calculation ---
+  const parseHeight = (h) => {
+    if (!h) return 0;
+    if (typeof h === 'number') return h;
+    const match = h.match(/^(\d+)(px|rem|vh|%)?$/);
+    return match ? parseInt(match[1], 10) : 0;
+  };
+
+  const getAutoHeight = () => {
+    if (activeTab === 'both') return undefined; // Let vertical layout flow naturally or use overall 'height'
+    
+    const p = parseHeight(previewHeight);
+    const j = parseHeight(jsHeight);
+    const h = parseHeight(htmlHeight);
+    const c = parseHeight(codeHeight);
+    
+    let activeCodeH = 0;
+    if (activeTab === 'js') activeCodeH = Math.max(j, c);
+    else if (activeTab === 'html') activeCodeH = Math.max(h, c);
+    
+    const maxH = Math.max(p, activeCodeH);
+    return maxH > 0 ? `${maxH}px` : undefined;
+  };
+
+  const isBoth = activeTab === 'both';
+  const autoHeight = getAutoHeight();
+  
+  const contentStyle = {
+    height: height || autoHeight
+  };
+
+  // Shared height for children in single-tab mode
+  const sidebarStyle = (!isBoth && autoHeight) ? { height: '100%' } : undefined;
+
   return (
     <div className="live-editor-container">
       <div className="live-editor-header">
@@ -273,8 +319,15 @@ function LiveCodeEditor({
         </div>
       </div>
 
-      <div className={`live-editor-content ${activeTab === 'both' ? 'vertical-layout' : ''}`} style={height ? { height } : undefined}>
-        <div className="live-editor-preview" id={scopeId} style={previewHeight ? { height: previewHeight } : undefined}>
+      <div 
+        className={`live-editor-content ${isBoth ? 'vertical-layout' : ''}`} 
+        style={contentStyle}
+      >
+        <div 
+          className="live-editor-preview" 
+          id={scopeId} 
+          style={sidebarStyle || (previewHeight ? { height: previewHeight } : undefined)}
+        >
           <div className="preview-viewport" style={{ transform: 'translateZ(0)', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
             <div className="preview-scroll" style={{ width: '100%', height: '100%', overflow: 'auto', padding: '1.5rem', background: '#ffffff' }}>
               <style ref={styleRef}></style>
@@ -283,9 +336,15 @@ function LiveCodeEditor({
           </div>
         </div>
 
-        <div className={`live-editor-code ${activeTab === 'both' ? 'split-vertical' : ''}`} style={codeHeight ? { height: codeHeight } : undefined}>
-          {(activeTab === 'js' || activeTab === 'both') && (
-            <div className="code-editor-wrapper">
+        <div 
+          className={`live-editor-code ${isBoth ? 'split-vertical' : ''}`} 
+          style={sidebarStyle || (codeHeight ? { height: codeHeight } : undefined)}
+        >
+          {(activeTab === 'js' || isBoth) && (
+            <div 
+              className="code-editor-wrapper" 
+              style={sidebarStyle || (jsHeight ? { height: jsHeight, flex: 'none' } : undefined)}
+            >
               <button className="copy-btn" onClick={() => handleCopy('js', draftJs)}>
                 {copiedType === 'js' ? '✓ Copied!' : '📋 Copy JS'}
               </button>
@@ -299,8 +358,11 @@ function LiveCodeEditor({
             </div>
           )}
 
-          {(activeTab === 'html' || activeTab === 'both') && (
-            <div className={`code-editor-wrapper ${activeTab === 'both' ? 'html-both-wrapper' : ''}`}>
+          {(activeTab === 'html' || isBoth) && (
+            <div 
+              className={`code-editor-wrapper ${isBoth ? 'html-both-wrapper' : ''}`}
+              style={sidebarStyle || (htmlHeight ? { height: htmlHeight, flex: 'none' } : undefined)}
+            >
               <button className="copy-btn" onClick={() => handleCopy('html', draftHtml)}>
                 {copiedType === 'html' ? '✓ Copied' : '📋 Copy HTML'}
               </button>

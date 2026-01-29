@@ -16,6 +16,7 @@
 - **CSS Foundations**: 하부 구조 (Display, Box Model, Logical Properties, Float)
 - **Visual & Design**: 시각 요소 (Colors, Typography)
 - **Interaction**: 상호작용 (States, Pseudo-classes, Form Styling, A11y)
+- **JS Curriculum**: 자바스크립트 핵심 문법 및 고급 기법 (Basics, Objects, Modern JS, Async, DOM)
 
 ### 2. 통합 라이브 에디터 (Center)
 - **CSS/HTML 탭**: 예제의 스타일과 구조를 자유롭게 편집합니다.
@@ -44,6 +45,13 @@
 - **Container Queries**: 브라우저 크기가 아닌 부모 요소 크기에 반응하는 컴포넌트를 설계합니다.
 - **Modern Selectors**: `:is()`, `:where()`를 통해 선택자의 우선순위(Specificity)를 정밀하게 관리합니다.
 - **Stacking Context**: 레이어가 꼬이는 원인(z-index)을 완벽히 격파합니다.
+
+### 🟨 JavaScript Curriculum
+- **Basics & Logic**: 변수, 데이터 타입(BigInt 포함), 연산자, 루프 등 핵심 논리를 다룹니다.
+- **Objects & Data**: 참조 타입의 동작 원리, Map/Set, 스프레드 연산자 등 데이터 구조를 이해합니다.
+- **Advanced Mechanics**: 클로저, 프로토타입 상속, 제너레이터, 커링 등 심화 기법을 마스터합니다.
+- **Browser & Async**: DOM 조작, 이벤트 시스템, 비동기 처 및 브라우저 스토리지 활용법을 배웁니다.
+- **JS + CSS**: 자바스크립트로 CSS 변수와 애니메이션 시점을 정밀하게 제어하는 법을 익힙니다.
 
 ---
 

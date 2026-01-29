@@ -3,43 +3,12 @@
  * CSS 명시도(Specificity) 점수 체계를 학습하는 페이지입니다.
  * 주요 개념: 인라인, ID, 클래스/속성/의사클래스, 태그 선택자의 점수 계산
  */
-import { useState } from 'react';
+import {  } from 'react';
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';
 
 function SpecificityStudy() {
-  const [selector, setSelector] = useState('');
-  const [calculatedScore, setCalculatedScore] = useState(null);
-
-  // 간단한 명시도 계산기
-  const calculateSpecificity = (sel) => {
-    if (!sel.trim()) return null;
-    
-    let inline = 0;
-    let ids = 0;
-    let classes = 0;
-    let tags = 0;
-
-    // ID 선택자 카운트
-    ids = (sel.match(/#[a-zA-Z_-]+/g) || []).length;
-    
-    // 클래스, 속성, 의사클래스 카운트
-    classes = (sel.match(/\.[a-zA-Z_-]+/g) || []).length;
-    classes += (sel.match(/\[[^\]]+\]/g) || []).length;
-    classes += (sel.match(/:[a-zA-Z-]+(\([^)]*\))?/g) || []).filter(p => !p.startsWith('::')).length;
-    
-    // 태그 선택자 카운트 (의사 요소 포함)
-    const cleanSel = sel.replace(/#[a-zA-Z_-]+/g, '').replace(/\.[a-zA-Z_-]+/g, '').replace(/\[[^\]]+\]/g, '').replace(/:[a-zA-Z-]+(\([^)]*\))?/g, '');
-    tags = (cleanSel.match(/[a-zA-Z]+/g) || []).length;
-    tags += (sel.match(/::[a-zA-Z-]+/g) || []).length;
-
-    return { inline, ids, classes, tags };
-  };
-
-  const handleCalculate = () => {
-    setCalculatedScore(calculateSpecificity(selector));
-  };
 
   return (
     <div className="page-container">

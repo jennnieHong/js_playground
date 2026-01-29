@@ -12,8 +12,6 @@ import CollapsibleSection from '../components/CollapsibleSection';
 function StackingStudy() {
   // --- 상태 관리 (State Management) ---
   // 실시간으로 z-index와 isolation 모드를 변경하며 층위 변화를 확인하기 위한 상태입니다.
-  const [zIndex1, setZIndex1] = useState('1');
-  const [zIndex2, setZIndex2] = useState('2');
   const [isolationMode, setIsolationMode] = useState('auto');
 
   return (

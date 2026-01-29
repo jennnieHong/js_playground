@@ -76,7 +76,42 @@ try {
                 />
             </CollapsibleSection>
 
-            <CollapsibleSection title="3. 엄격한 연산 규칙 (Strict Constraints)">
+            <CollapsibleSection title="3. ⚠️ 주의: 'new' 키워드 사용 금지 (No Constructor)">
+                <div className="concepts">
+                    <p>BigInt는 <code>Number</code>나 <code>String</code>과 달리 **생성자(Constructor)로 사용할 수 없습니다.**</p>
+                    <div className="info-box">
+                        <strong>🤔 왜 new BigInt()는 안 되나요?</strong>
+                        <p>과거 <code>new Number(123)</code>와 같은 생성자 방식은 원시 값(Primitive)이 아닌 <strong>객체(Object)</strong>를 만들어내어 타입 혼란과 성능 저하를 일으켰습니다.</p>
+                        <p>BigInt는 이러한 역사적 실수를 반복하지 않기 위해 설계되었으며, 항상 원시 값(Primitive)으로만 존재하도록 <code>new</code> 사용을 문법적으로 막아두었습니다.</p>
+                    </div>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-bigint-new-error"
+                    initialHtml={consoleHtml}
+                    initialJs={`// 1. 정상적인 함수 호출
+const validBigInt = BigInt(100);
+log("Type: " + typeof validBigInt); // "bigint"
+
+// 2. new 사용 시 에러 발생
+try {
+  const invalid = new BigInt(100);
+} catch(e) {
+  log("\\nBigInt Error: " + e.message);
+  log("=> 'new'를 쓸 수 없습니다. (원시 타입 보호)");
+}
+
+// ★ 보너스: Symbol도 똑같습니다!
+log("\\n--- Symbol Comparison ---");
+try {
+  const sym = new Symbol("foo");
+} catch(e) {
+  log("Symbol Error: " + e.message);
+  log("=> Symbol도 BigInt처럼 전용 생성자가 금지되어 있습니다.");
+}`}
+                />
+            </CollapsibleSection>
+
+            <CollapsibleSection title="4. 엄격한 연산 규칙 (Strict Constraints)">
                 <div className="concepts">
                     <p>BigInt는 일반 <code>Number</code>와 함께 연산할 때 매우 엄격한 규칙이 적용됩니다.</p>
                     <ul>

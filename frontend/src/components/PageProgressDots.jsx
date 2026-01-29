@@ -30,7 +30,7 @@ function PageProgressDots() {
 
     useEffect(() => {
         // 즉시 실행 및 지연 실행 (컴포넌트 렌더링 대기)
-        findSections();
+        queueMicrotask(() => findSections());
         const timer1 = setTimeout(findSections, 100);
         const timer2 = setTimeout(findSections, 500);
 

@@ -14,15 +14,30 @@ import JsTypeConversionStudy from './pages/JsTypeConversionStudy';
 import JsOperatorsStudy from './pages/JsOperatorsStudy';
 import JsConditionalsStudy from './pages/JsConditionalsStudy';
 import JsLoopsStudy from './pages/JsLoopsStudy';
+import JsIterablesStudy from './pages/JsIterablesStudy';
+import JsSpreadStudy from './pages/JsSpreadStudy';
+import JsReferenceTypesStudy from './pages/JsReferenceTypesStudy';
+import JsArrayLikeStudy from './pages/JsArrayLikeStudy';
 import JsFunctionsStudy from './pages/JsFunctionsStudy';
 import JsArraysStudy from './pages/JsArraysStudy';
 import JsObjectsStudy from './pages/JsObjectsStudy';
 import JsDomManipulationStudy from './pages/JsDomManipulationStudy';
+import JsDomEssentialsStudy from './pages/JsDomEssentialsStudy';
 import JsEventsStudy from './pages/JsEventsStudy';
 import JsAsyncBasicsStudy from './pages/JsAsyncBasicsStudy';
 import JsAsyncFetchStudy from './pages/JsAsyncFetchStudy';
 import JsModernStudy from './pages/JsModernStudy';
 import JsNumberPrecisionStudy from './pages/JsNumberPrecisionStudy';
+import JsTypeCheckingStudy from './pages/JsTypeCheckingStudy';
+import JsPrototypesStudy from './pages/JsPrototypesStudy';
+import JsCssDomStudy from './pages/JsCssDomStudy';
+import JsCssVariablesStudy from './pages/JsCssVariablesStudy';
+import JsCssComputedStudy from './pages/JsCssComputedStudy';
+import JsCssAnimationsStudy from './pages/JsCssAnimationsStudy';
+import JsMapSetStudy from './pages/JsMapSetStudy';
+import JsAdvancedJsStudy from './pages/JsAdvancedJsStudy';
+import JsWebStorageStudy from './pages/JsWebStorageStudy';
+
 
 import './styles/main.css';
 import './styles/navigation.css';
@@ -55,15 +70,32 @@ function App() {
             <Route path="/js/operators" element={<JsOperatorsStudy />} />
             <Route path="/js/conditionals" element={<JsConditionalsStudy />} />
             <Route path="/js/loops" element={<JsLoopsStudy />} />
+            <Route path="/js/iterables" element={<JsIterablesStudy />} />
+            <Route path="/js/spread-destructuring" element={<JsSpreadStudy />} />
+            <Route path="/js/reference-types" element={<JsReferenceTypesStudy />} />
+            <Route path="/js/array-like" element={<JsArrayLikeStudy />} />
             <Route path="/js/functions" element={<JsFunctionsStudy />} />
             <Route path="/js/arrays" element={<JsArraysStudy />} />
             <Route path="/js/objects" element={<JsObjectsStudy />} />
             <Route path="/js/dom-manipulation" element={<JsDomManipulationStudy />} />
+            <Route path="/js/dom-essentials" element={<JsDomEssentialsStudy />} />
             <Route path="/js/events" element={<JsEventsStudy />} />
             <Route path="/js/async-basics" element={<JsAsyncBasicsStudy />} />
             <Route path="/js/async-fetch" element={<JsAsyncFetchStudy />} />
             <Route path="/js/modern" element={<JsModernStudy />} />
             <Route path="/js/precision" element={<JsNumberPrecisionStudy />} />
+            <Route path="/js/type-checking" element={<JsTypeCheckingStudy />} />
+            <Route path="/js/prototypes" element={<JsPrototypesStudy />} />
+
+            <Route path="/js-css/dom-styling" element={<JsCssDomStudy />} />
+            <Route path="/js-css/variables" element={<JsCssVariablesStudy />} />
+            <Route path="/js-css/computed" element={<JsCssComputedStudy />} />
+            <Route path="/js-css/animation-events" element={<JsCssAnimationsStudy />} />
+
+            <Route path="/js/map-set" element={<JsMapSetStudy />} />
+            <Route path="/js/advanced-js" element={<JsAdvancedJsStudy />} />
+            <Route path="/js/web-storage" element={<JsWebStorageStudy />} />
+
           </Routes>
         </main>
         <ScrollButtons />

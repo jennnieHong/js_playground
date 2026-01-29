@@ -2,7 +2,7 @@
  * PerformanceStudy.jsx
  * CSS 성능 최적화 및 렌더링 파이프라인 실습 페이지
  */
-import { useState } from 'react';
+import {  } from 'react';
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import CssPropertyControls from '../components/CssPropertyControls';
 import PageHeader from '../components/PageHeader';

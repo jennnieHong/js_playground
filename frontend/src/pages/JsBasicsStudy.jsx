@@ -1,6 +1,7 @@
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';
+import RelatedLinks from '../components/RelatedLinks';
 
 const JsBasicsStudy = () => {
   const consoleHtml = `
@@ -391,6 +392,16 @@ const multi = \`라인 1
 log("\\n" + multi);`}
         />
       </CollapsibleSection>
+      <RelatedLinks
+        links={[
+          {
+            path: "/js/reference-types",
+            title: "9. 참조 타입과 객체심화",
+            description: "원시 타입과 대비되는 참조 타입(객체, 배열 등)의 동작 원리를 배웁니다.",
+            icon: "🧠"
+          }
+        ]}
+      />
     </div>
   );
 };

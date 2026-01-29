@@ -237,6 +237,101 @@ function SelectorsBasicsStudy() {
   • <code>A ~ B</code> → A 이후 모든 B
 </div>`}
         />
+        <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fde68a' }}>
+          <p style={{ margin: 0, fontSize: '0.9rem', color: '#92400e', lineHeight: '1.6' }}>
+            <strong>❓ 실무에서 ~ (일반 형제)와 + (인접 형제) 중 무엇을 더 많이 쓰나요?</strong><br />
+            <strong>+ (인접 형제)</strong>는 바로 뒤에 오는 단일 요소만 제어할 때(예: 체크박스 바로 뒤 라벨 강조) 주로 사용하며,
+            <strong>~ (일반 형제)</strong>는 특정 요소 이후에 등장하는 여러 요소들을 일괄 제어하거나, 레이아웃 상 거리가 떨어진 형제를 타겟팅할 때 유용합니다.
+            <br /><br />
+            현대 CSS에서는 <strong>:has()</strong>가 등장하면서 형제 선택자의 한계(오직 '나중' 형제만 선택 가능)를 극복할 수 있게 되었지만, 브라우저 호환성을 고려해야 하는 환경에서는 여전히 형제 선택자가 핵심적인 역할을 합니다.
+          </p>
+        </div>
+
+        <h4 style={{ margin: '2rem 0 1rem 0', color: '#1e293b' }}>🛠️ 실전 예제: 체크리스트 & 강조 효과</h4>
+        <LiveCodeEditor
+          scopeId="sibling-practical-demo"
+          previewHeight="400px"
+          codeHeight="450px"
+          initialCss={`/* 1. 체크박스가 체크되면 바로 다음 형제(label) 스타일 변경 (+) */
+.todo-input:checked + .todo-label {
+  color: #94a3b8;
+  text-decoration: line-through;
+  font-style: italic;
+}
+
+/* 2. 특정 그룹에 호버하면 그 뒤에 오는 팁박스 보여주기 (~) */
+.hover-trigger:hover ~ .tip-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.todo-input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.todo-label {
+  font-weight: 600;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.hover-trigger {
+  padding: 15px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  cursor: help;
+}
+
+.tip-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s;
+  pointer-events: none;
+}`}
+          initialHtml={`<div style="padding: 20px; background: #f8fafc; border-radius: 12px;">
+  <h5>✅ 인접 형제 선택자 (+) 활용</h5>
+  <div class="todo-item">
+    <input type="checkbox" id="item1" class="todo-input">
+    <label for="item1" class="todo-label">오늘의 할 일 완료하기</label>
+  </div>
+  <div class="todo-item">
+    <input type="checkbox" id="item2" class="todo-input">
+    <label for="item2" class="todo-label">CSS 공부하기</label>
+  </div>
+
+  <hr style="margin: 20px 0; border: none; border-top: 1px solid #e2e8f0;">
+
+  <h5>🚀 일반 형제 선택자 (~) 활용</h5>
+  <div class="hover-trigger">여기에 마우스를 올려보세요!</div>
+  <div class="tip-box">
+    <strong>💡 알고 계셨나요?</strong><br/>
+    일반 형제 선택자(~)를 사용하면 트리거 요소 뒤에 있는 어떤 요소든 제어할 수 있습니다.
+  </div>
+</div>`}
+        />
       </CollapsibleSection>
 
       {/* 3. 선택자 우선순위 */}

@@ -1,6 +1,7 @@
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';
+import RelatedLinks from '../components/RelatedLinks';
 
 const JsArraysStudy = () => {
     const consoleHtml = `
@@ -59,6 +60,27 @@ log("Original is same: " + fruits);`}
                         <li><code>map</code>: 모든 요소를 특정 규칙에 따라 **변환**</li>
                         <li><code>find</code>: 특정 조건을 만족하는 **첫 번째 요소** 찾기</li>
                     </ul>
+
+                    <div className="info-table-wrapper">
+                      <table className="info-table">
+                        <thead>
+                          <tr>
+                            <th>장점 (Pros)</th>
+                            <th>단점 & 주의사항 (Cons)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><strong>가독성:</strong> 루프 변수 관리 없이 목적이 명확히 드러남.</td>
+                            <td><strong>성능:</strong> 아주 거대한 배열에서는 일반 <code>for</code>문보다 약간 느릴 수 있음.</td>
+                          </tr>
+                          <tr>
+                            <td><strong>불변성:</strong> 원본 배열을 수정하지 않고 새 배열을 반환함.</td>
+                            <td><strong>디버깅:</strong> 체이닝이 길어지면 중간 단계의 값을 확인하기 번거로움.</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                 </div>
                 <LiveCodeEditor
                     scopeId="js-array-hoc"
@@ -88,6 +110,14 @@ log("Winner Name: " + (winner ? winner.name : "None"));`}
                 <div className="concepts">
                     <p>배열의 모든 요소를 하나의 값으로 압축합니다. 합계, 통계, 데이터 포맷 변경 등에 매우 강력하게 쓰입니다.</p>
                     <p><code>reduce((누적값, 현재값) =&gt; {'{ ... }'}, 초기값)</code></p>
+                    
+                    <blockquote>
+                      <strong>⚠️ reduce 사용 시 주의사항:</strong>
+                      <ul>
+                        <li><strong>초기값 설정:</strong> 초기값을 생략하면 배열의 첫 번째 요소가 초기값이 됩니다. 빈 배열에서 초기값 없이 <code>reduce</code>를 쓰면 에러가 발생하므로 <strong>항상 초기값을 명시</strong>하는 습관이 중요합니다.</li>
+                        <li><strong>사이드 이펙트:</strong> 누적값(acc)이 객체나 배열일 경우, 내부를 직접 수정하지 말고 스프레드 연산자 등을 사용해 새로운 상태를 반환하는 것이 안전합니다.</li>
+                      </ul>
+                    </blockquote>
                 </div>
                 <LiveCodeEditor
                     scopeId="js-array-reduce"
@@ -116,6 +146,31 @@ const stats = votes.reduce((acc, cur) => {
 log("\\n투표 결과: " + JSON.stringify(stats));`}
                 />
             </CollapsibleSection>
+
+            <style>{`
+              .info-table-wrapper { margin: 15px 0; overflow-x: auto; }
+              .info-table { width: 100%; border-collapse: collapse; background: var(--bg-secondary); border-radius: 8px; font-size: 0.9rem; }
+              .info-table th, .info-table td { padding: 12px; border: 1px solid var(--border-color); text-align: left; }
+              .info-table th { background: var(--bg-tertiary); color: var(--text-primary); }
+              .info-table td { color: var(--text-secondary); line-height: 1.5; }
+            `}</style>
+
+            <RelatedLinks
+                links={[
+                    {
+                        path: "/js/array-like",
+                        title: "10. 유사 배열 객체",
+                        description: "배열과 비슷해 보이지만 사실은 일반 객체인 유사 배열의 한계와 활용법을 배웁니다.",
+                        icon: "🎭"
+                    },
+                    {
+                        path: "/js/functions",
+                        title: "11. 함수와 클로저",
+                        description: "고차 함수(map, filter)의 핵심인 함수의 원리과 클로저를 배웁니다.",
+                        icon: "🧩"
+                    }
+                ]}
+            />
         </div>
     );
 };

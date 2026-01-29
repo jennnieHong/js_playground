@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';

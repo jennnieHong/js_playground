@@ -12,7 +12,6 @@ import CollapsibleSection from '../components/CollapsibleSection';
 function RelativeAbsoluteStudy() {
   // 상태 관리
   const [parentPosition, setParentPosition] = useState('relative');
-  const [childPosition, setChildPosition] = useState('absolute');
   const [relativeOffset, setRelativeOffset] = useState('0');
 
   return (

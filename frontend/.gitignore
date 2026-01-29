@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+lint_*.txt
+lint-results*
+lint_output.txt
 
 node_modules
 dist

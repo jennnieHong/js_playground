@@ -4,21 +4,23 @@
  * 검색 시 오버레이로 결과를 표시하여 현재 페이지를 유지
  */
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { searchPages } from '../data/pageMetadata';
 
 function HeaderSearch() {
     const [searchParams] = useSearchParams();
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState(() => searchParams.get('q') || '');
     const [showOverlay, setShowOverlay] = useState(false);
     const [results, setResults] = useState([]);
     const searchContainerRef = useRef(null);
+    const lastSyncedQuery = useRef(searchParams.get('q') || '');
 
     // URL에서 검색어를 읽어와 input에 자동 입력
     useEffect(() => {
-        const urlQuery = searchParams.get('q');
-        if (urlQuery) {
-            setQuery(urlQuery);
+        const urlQuery = searchParams.get('q') || '';
+        if (urlQuery !== lastSyncedQuery.current) {
+            queueMicrotask(() => setQuery(urlQuery));
+            lastSyncedQuery.current = urlQuery;
         }
     }, [searchParams]);
 

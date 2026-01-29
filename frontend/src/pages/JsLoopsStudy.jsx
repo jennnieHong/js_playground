@@ -1,6 +1,7 @@
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';
+import RelatedLinks from '../components/RelatedLinks';
 
 const JsLoopsStudy = () => {
   const consoleHtml = `
@@ -9,93 +10,232 @@ const JsLoopsStudy = () => {
     <span class="dot red"></span>
     <span class="dot yellow"></span>
     <span class="dot green"></span>
-    <span class="console-title">Loop Console</span>
+    <span class="console-title">Advanced Loops</span>
   </div>
   <div class="console-body">
-    <div data-ref="logContent" class="log-content">> JavaScript 실행 결과를 확인하세요.</div>
+    <div data-ref="logContent" class="log-content">> JavaScript 루프의 모든 것을 탐구합니다.</div>
   </div>
 </div>`;
 
   return (
     <div className="page-container">
       <PageHeader
-        title="4. 반복문 (Loops)"
-        subtitle="코드의 노가다 탈출: 반복적인 작업을 컴퓨터에게 효율적으로 시키는 방법을 익힙니다."
+        title="6. 반복문 (Loops)"
+        subtitle="코드의 효율성 극대화: 단순 반복을 넘어 객체와 배열, 그리고 이터러블을 완벽하게 순회하는 법을 배웁니다."
       />
 
-      <CollapsibleSection title="1. 기본 For 문" initiallyOpen={true}>
+      <CollapsibleSection title="1. 기본 루프: for & while" initiallyOpen={true}>
         <div className="concepts">
-          <p>정해진 횟수만큼 반복할 때 가장 많이 사용됩니다.</p>
-          <p><code>for (초기식; 조건식; 증감식)</code> 의 구조를 가집니다.</p>
+          <p>전통적인 방식의 반복문입니다. 제어권이 개발자에게 가장 많이 주어집니다.</p>
         </div>
         <LiveCodeEditor
-          scopeId="js-loops-for"
+          scopeId="js-loops-basic"
           initialHtml={consoleHtml}
-          initialJs={`log("--- 1부터 5까지 출력 ---");
-for (let i = 1; i <= 5; i++) {
-  log(\`Count: \${i}\`);
+          initialJs={`// 1. For: 횟수가 명확할 때
+log("--- Standard For ---");
+for (let i = 0; i < 3; i++) {
+  log(\`Index \${i}\`);
 }
 
-log("\\n--- 짝수만 출력 (2, 4, 6) ---");
-for (let i = 2; i <= 6; i += 2) {
-  log(\`Even: \${i}\`);
+// 2. While: 조건이 유지되는 동안 (예: 데이터 발견할 때까지)
+log("\\n--- While (Random) ---");
+let num = 0;
+while (num < 0.8) {
+  num = Math.random();
+  log(\`Random: \${num.toFixed(2)}\`);
 }`}
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="2. While 문">
+      <CollapsibleSection title="2. for...of: 이터러블 순회 (Value 중심)">
         <div className="concepts">
-          <p>조건이 참인 동안 계속해서 반복합니다. 횟수가 정해지지 않았을 때 유리합니다.</p>
+          <p>배열, 문자열, Map, Set 등 <strong>반복 가능한(Iterable)</strong> 객체의 <strong>값</strong>을 순회합니다.</p>
+          <div className="info-grid">
+            <div className="info-card">
+              <h4>장점</h4>
+              <p>코드가 매우 간결하며, <code>break</code>와 <code>continue</code>를 사용할 수 있습니다.</p>
+            </div>
+            <div className="info-card warning">
+              <h4>한계</h4>
+              <p>일반 객체(<code>{'{}'}</code>)는 이터러블이 아니기 때문에 사용할 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-loops-for-of"
+          initialHtml={consoleHtml}
+          initialJs={`// 1. 배열 순회
+const colors = ["Red", "Green", "Blue"];
+log("--- Array Values ---");
+for (const color of colors) {
+  log(color);
+}
+
+// 2. 문자열 순회
+const word = "JS";
+log("\\n--- String Characters ---");
+for (const char of word) {
+  log(char);
+}
+
+// 3. 인덱스가 필요한 경우 (entries 사용)
+log("\\n--- Index & Value ---");
+for (const [index, val] of colors.entries()) {
+  log(\`#\${index}: \${val}\`);
+}
+
+// 4. break 사용 가능 (forEach와 다른 점)
+log("\\n--- Search & Break ---");
+for (const color of colors) {
+  if (color === "Green") {
+    log("Found Green! Stopping...");
+    break; 
+  }
+  log(\`Checking \${color}...\`);
+}`}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="3. for...in: 객체 속성 순회 (Key 중심)">
+        <div className="concepts">
+          <p>객체의 모든 <strong>열거 가능한(Enumerable) 속성 이름(Key)</strong>을 순회합니다.</p>
           <blockquote>
-            <strong>경고:</strong> 조건이 항상 true면 **무한 루프**에 빠져 브라우저가 멈출 수 있습니다!
+            <strong>⚠️ 실무 주의사항:</strong>
+            <ul>
+              <li><strong>배열에는 절대 사용하지 마세요:</strong> 인덱스가 숫자 형태가 아닌 문자열로 취급되며, 순서가 보장되지 않을 수 있습니다.</li>
+              <li><strong>상속된 속성까지 순회:</strong> 부모 객체(Prototype)의 속성까지 출력될 수 있어 위험합니다.</li>
+            </ul>
           </blockquote>
         </div>
         <LiveCodeEditor
-          scopeId="js-loops-while"
+          scopeId="js-loops-for-in"
           initialHtml={consoleHtml}
-          initialJs={`let dice = 0;
-let attempts = 0;
-
-log("주사위를 던져 6이 나오면 멈춥니다...");
-
-while (dice !== 6) {
-  dice = Math.floor(Math.random() * 6) + 1;
-  attempts++;
-  log(\`Attempt \${attempts}: 결과 [\${dice}]\`);
+          initialJs={`// 1. 객체 순회
+const car = { brand: "Tesla", model: "Model 3", year: 2024 };
+log("--- Object Keys & Values ---");
+for (const key in car) {
+  log(\`\${key}: \${car[key]}\`);
 }
 
-log(\`\\n🎉 총 \${attempts}번 만에 6이 나왔습니다!\`);`}
+// 2. [위험] 상속된 속성 문제
+// human의 프로토타입에 임의의 속성을 추가
+Object.prototype.extraPower = "Fly"; 
+
+const human = { name: "Alice" };
+log("\\n--- Prototype Pollution Problem ---");
+for (const key in human) {
+  log(\`Key found: \${key}\`); // 'name' 뿐만 아니라 'extraPower'까지 출력됨!
+}
+
+// 3. 해결책: Object.hasOwn() 사용 (ES2022+)
+log("\\n--- Only Own Properties ---");
+for (const key in human) {
+  if (Object.hasOwn(human, key)) {
+    log(\`Safe Key: \${key}\`);
+  }
+}
+
+// 4. 더 나은 현대적 대안 (속도 및 안전성)
+log("\\n--- Modern Way (Object.entries) ---");
+Object.entries(car).forEach(([key, val]) => {
+  log(\`\${key} => \${val}\`);
+});`}
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="3. 모던 반복문: for...of & for...in">
+      <CollapsibleSection title="4. DOM 컬렉션과 반복문">
         <div className="concepts">
-          <p>컬렉션(배열, 객체)을 순회할 때 코드가 훨씬 간결해집니다.</p>
-          <ul>
-            <li><code>for...of</code>: 배열의 **값**을 하나씩 꺼내옵니다.</li>
-            <li><code>for...in</code>: 객체의 **키(속성 이름)**를 하나씩 꺼내옵니다.</li>
-          </ul>
+          <p><code>querySelectorAll</code>로 가져온 **NodeList**를 다룰 때의 팁입니다.</p>
         </div>
         <LiveCodeEditor
-          scopeId="js-loops-modern"
-          initialHtml={consoleHtml}
-          initialJs={`// 1. Array with for...of
-const fruits = ["🍎", "🍇", "🍊"];
-log("--- 과일 바구니 (for...of) ---");
-for (const fruit of fruits) {
-  log(fruit);
+          scopeId="js-loops-dom"
+          initialHtml={`
+            <div id="item-list">
+              <div class="item">Item 1</div>
+              <div class="item">Item 2</div>
+              <div class="item">Item 3</div>
+            </div>
+            \${consoleHtml}
+          `}
+          initialJs={`// 1. NodeList는 for...of를 지원합니다 (최신 브라우저)
+const items = pickAll(".item"); // querySelectorAll helper
+
+log("--- NodeList and for...of ---");
+for (const el of items) {
+  el.style.color = "var(--primary-color)";
+  log("Modified: " + el.innerText);
 }
 
-// 2. Object with for...in
-const user = { name: "JENNIE", level: 10, role: "Admin" };
-log("\\n--- 유저 정보 (for...in) ---");
-for (const key in user) {
-  log(\`\${key}: \${user[key]}\`);
-}`}
+// 2. HTMLCollection (getElementsByClassName 등)은 지원되지 않을 수 있음
+// 이럴 땐 Array.from()으로 변환하여 순회하는 것이 가장 안전한 표준입니다.
+log("\\nSafe conversion: Array.from(collection).forEach(...)");`}
         />
       </CollapsibleSection>
+
+      <CollapsibleSection title="5. 성능 및 한 줄 정리">
+        <div className="concepts">
+          <div className="info-table-wrapper">
+            <table className="info-table">
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>for...of</th>
+                  <th>for...in</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>사용 대상</strong></td>
+                  <td>배열, 문자열, 이터러블</td>
+                  <td>일반 객체의 속성</td>
+                </tr>
+                <tr>
+                  <td><strong>추출 정보</strong></td>
+                  <td>속성 <strong>값(Value)</strong></td>
+                  <td>속성 <strong>이름(Key)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>배열 권장?</strong></td>
+                  <td>✅ 매우 권장</td>
+                  <td>❌ 절대 금지</td>
+                </tr>
+                <tr>
+                  <td><strong>성능</strong></td>
+                  <td>최적화 잘 됨 (빠름)</td>
+                  <td>비교적 느림</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <style>{`
+            .info-table-wrapper { margin: 15px 0; overflow-x: auto; }
+            .info-table { width: 100%; border-collapse: collapse; background: var(--bg-secondary); border-radius: 8px; font-size: 0.9rem; }
+            .info-table th, .info-table td { padding: 12px; border: 1px solid var(--border-color); text-align: left; }
+            .info-table th { background: var(--bg-tertiary); color: var(--text-primary); }
+            .info-table td { color: var(--text-secondary); }
+          `}</style>
+        </div>
+      </CollapsibleSection>
+
+      <RelatedLinks
+        links={[
+          {
+            path: "/js/conditionals",
+            title: "5. 조건문 (Conditionals)",
+            description: "루프와 함께 프로그램의 흐름을 제어하는 if, switch 문을 배웁니다.",
+            icon: "🛤️"
+          },
+          {
+            path: "/js/iterables",
+            title: "7. 이터러블 프로토콜",
+            description: "for...of 루프가 내부적으로 어떻게 작동하는지 원리를 파헤칩니다.",
+            icon: "➰"
+          }
+        ]}
+      />
     </div>
   );
 };
 
 export default JsLoopsStudy;
+

@@ -2,7 +2,6 @@
  * CssArchitectureStudy.jsx
  * 대규모 프로젝트를 위한 CSS 아키텍처 및 설계 전략 실습 페이지
  */
-import { useState } from 'react';
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 
@@ -42,7 +41,7 @@ function CssArchitectureStudy() {
             <div style={{ padding: '1.5rem', background: '#ecfeff', borderRadius: '12px', border: '2px solid #06b6d4' }}>
               <h4 style={{ marginTop: 0, color: '#0891b2' }}>📦 Block (블록)</h4>
               <p style={{ fontSize: '0.9rem', color: '#0e7490', marginBottom: '0.5rem' }}>
-                <strong>독립적인 컴포넌트 단위</strong><br/>
+                <strong>독립적인 컴포넌트 단위</strong><br />
                 재사용 가능, 단독으로 의미가 있음
               </p>
               <code style={{ display: 'block', padding: '0.5rem', background: '#0f172a', color: '#e2e8f0', borderRadius: '4px', fontSize: '0.85rem' }}>
@@ -53,8 +52,8 @@ function CssArchitectureStudy() {
             <div style={{ padding: '1.5rem', background: '#fef3c7', borderRadius: '12px', border: '2px solid #f59e0b' }}>
               <h4 style={{ marginTop: 0, color: '#b45309' }}>🧩 Element (요소)</h4>
               <p style={{ fontSize: '0.9rem', color: '#92400e', marginBottom: '0.5rem' }}>
-                <strong>블록의 일부분</strong><br/>
-                블록 없이는 의미가 없음<br/>
+                <strong>블록의 일부분</strong><br />
+                블록 없이는 의미가 없음<br />
                 형식: block__element (언더스코어 2개)
               </p>
               <code style={{ display: 'block', padding: '0.5rem', background: '#0f172a', color: '#e2e8f0', borderRadius: '4px', fontSize: '0.85rem' }}>
@@ -65,8 +64,8 @@ function CssArchitectureStudy() {
             <div style={{ padding: '1.5rem', background: '#d1fae5', borderRadius: '12px', border: '2px solid #10b981' }}>
               <h4 style={{ marginTop: 0, color: '#059669' }}>🎨 Modifier (수정자)</h4>
               <p style={{ fontSize: '0.9rem', color: '#047857', marginBottom: '0.5rem' }}>
-                <strong>블록/요소의 변형 또는 상태</strong><br/>
-                크기, 색상, 활성화 상태 등<br/>
+                <strong>블록/요소의 변형 또는 상태</strong><br />
+                크기, 색상, 활성화 상태 등<br />
                 형식: block--modifier 또는 block__element--modifier (하이픈 2개)
               </p>
               <code style={{ display: 'block', padding: '0.5rem', background: '#0f172a', color: '#e2e8f0', borderRadius: '4px', fontSize: '0.85rem' }}>
@@ -81,14 +80,14 @@ function CssArchitectureStudy() {
               <div>
                 <code style={{ color: '#0369a1' }}>__</code> (언더스코어 2개)
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#075985' }}>
-                  Block과 Element 연결<br/>
+                  Block과 Element 연결<br />
                   예: <code>.card__title</code>
                 </p>
               </div>
               <div>
                 <code style={{ color: '#0369a1' }}>--</code> (하이픈 2개)
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#075985' }}>
-                  Modifier 연결<br/>
+                  Modifier 연결<br />
                   예: <code>.button--large</code>
                 </p>
               </div>
@@ -101,28 +100,28 @@ function CssArchitectureStudy() {
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <code style={{ color: '#991b1b' }}>❌ .card__content__title</code>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#991b1b' }}>
-                  Element 중첩 금지!<br/>
+                  Element 중첩 금지!<br />
                   ✅ <code>.card__title</code> 사용
                 </p>
               </div>
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <code style={{ color: '#991b1b' }}>❌ .card_title</code>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#991b1b' }}>
-                  언더스코어 1개!<br/>
+                  언더스코어 1개!<br />
                   ✅ <code>.card__title</code> (2개)
                 </p>
               </div>
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <code style={{ color: '#991b1b' }}>❌ .card-title</code>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#991b1b' }}>
-                  Element에 하이픈 사용!<br/>
+                  Element에 하이픈 사용!<br />
                   ✅ <code>.card__title</code> (__)
                 </p>
               </div>
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <code style={{ color: '#991b1b' }}>❌ .card--big--red</code>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#991b1b' }}>
-                  Modifier 연속 사용!<br/>
+                  Modifier 연속 사용!<br />
                   ✅ <code>.card--big.card--red</code>
                 </p>
               </div>
@@ -200,6 +199,46 @@ function CssArchitectureStudy() {
         />
       </section>
 
+      {/* 섹션 2.5: OOCSS (Object-Oriented CSS) */}
+      <section className="study-section">
+        <h2 className="section-title">OOCSS: 구조와 외양의 분리</h2>
+        <div className="section-description">
+          <p>
+            OOCSS(Object-Oriented CSS)는 <strong>'구조(Structure)'와 '외양(Skin)'을 분리</strong>하여 코드의 재사용성을 극대화하는 방법론입니다.
+            BEM이 이름을 어떻게 지을지에 집중한다면, OOCSS는 스타일을 어떻게 나눌지에 집중합니다.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1.5rem' }}>
+            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+              <h4 style={{ marginTop: 0, color: '#475569' }}>🏗️ 1. 구조 (Structure) 분리</h4>
+              <p style={{ fontSize: '0.9rem', color: '#64748b' }}>레이아웃, 크기, 정렬 등 공통 틀</p>
+              <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem' }}>
+                {`.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 4px;
+}`}
+              </pre>
+            </div>
+            <div style={{ padding: '1.5rem', background: '#eff6ff', borderRadius: '12px', border: '1px solid #3b82f6' }}>
+              <h4 style={{ marginTop: 0, color: '#1e40af' }}>🎨 2. 외양 (Skin) 분리</h4>
+              <p style={{ fontSize: '0.9rem', color: '#1e3a8a' }}>색상, 배경, 그림자 등 시각적 효과</p>
+              <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem' }}>
+                {`.btn-primary { background: blue; }
+.btn-danger { background: red; }
+.shadow-lg { box-shadow: 0 10px 20px ...; }`}
+              </pre>
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f0f9ff', borderRadius: '8px', borderLeft: '4px solid #0ea5e9' }}>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: '#075985', lineHeight: '1.6' }}>
+              <strong>💡 실무 활용 예시:</strong><br />
+              <code>&lt;button class="btn btn-primary shadow-lg"&gt;</code> 처럼 클래스를 조합하여 사용합니다.
+              이는 현대의 <strong>Utility-First (Tailwind)</strong> 방식의 시초가 된 아주 중요한 사상입니다!
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* 섹션 2.5: 네스팅 최소화 */}
       <section className="study-section">
         <h2 className="section-title">네스팅 최소화: 선택자 깊이 줄이기</h2>
@@ -212,7 +251,7 @@ function CssArchitectureStudy() {
             <div style={{ padding: '1.5rem', background: '#fef2f2', borderRadius: '12px', border: '2px solid #fecaca' }}>
               <h4 style={{ marginTop: 0, color: '#b91c1c' }}>❌ 깊은 네스팅 (피해야 함)</h4>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`.header .nav .nav-list .nav-item .nav-link:hover {
+                {`.header .nav .nav-list .nav-item .nav-link:hover {
   color: blue;
 }
 /* 명시도: (0, 0, 5, 0) - 너무 높음! */`}
@@ -227,7 +266,7 @@ function CssArchitectureStudy() {
             <div style={{ padding: '1.5rem', background: '#d1fae5', borderRadius: '12px', border: '2px solid #10b981' }}>
               <h4 style={{ marginTop: 0, color: '#065f46' }}>✅ 네스팅 최소화 (권장)</h4>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`.nav-link:hover {
+                {`.nav-link:hover {
   color: blue;
 }
 /* 명시도: (0, 0, 2, 0) - 적절함 */`}
@@ -256,7 +295,7 @@ function CssArchitectureStudy() {
               BEM은 각 요소를 <strong>독립적인 클래스</strong>로 정의하므로, 네스팅이 필요 없어집니다!
             </p>
             <pre style={{ marginTop: '0.75rem', background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`/* 네스팅 없이 플랫하게! */
+              {`/* 네스팅 없이 플랫하게! */
 .card { }
 .card__title { }
 .card__body { }
@@ -284,7 +323,7 @@ function CssArchitectureStudy() {
                 브라우저 기본 스타일 초기화, 태그 선택자만 사용
               </p>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', margin: 0 }}>
-{`html, body { margin: 0; }
+                {`html, body { margin: 0; }
 a { color: inherit; }
 h1, h2, h3 { font-weight: 600; }`}
               </pre>
@@ -296,7 +335,7 @@ h1, h2, h3 { font-weight: 600; }`}
                 페이지 구조, 그리드 시스템. 접두사 <code>l-</code> 사용 권장
               </p>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', margin: 0 }}>
-{`.l-header { }
+                {`.l-header { }
 .l-sidebar { width: 250px; }
 .l-main { flex: 1; }
 .l-grid-2col { display: grid; }`}
@@ -309,7 +348,7 @@ h1, h2, h3 { font-weight: 600; }`}
                 재사용 가능한 UI 컴포넌트 (BEM의 Block과 유사)
               </p>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', margin: 0 }}>
-{`.card { }
+                {`.card { }
 .card-header { }
 .card-body { }
 .btn { }
@@ -323,7 +362,7 @@ h1, h2, h3 { font-weight: 600; }`}
                 JavaScript로 토글되는 상태. 접두사 <code>is-</code> 또는 <code>has-</code> 사용
               </p>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', margin: 0 }}>
-{`.is-active { }
+                {`.is-active { }
 .is-hidden { display: none; }
 .is-loading { opacity: 0.5; }
 .has-error { border-color: red; }`}
@@ -336,7 +375,7 @@ h1, h2, h3 { font-weight: 600; }`}
                 다크 모드, 시즌별 테마 등 시각적 오버라이드
               </p>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', margin: 0 }}>
-{`.theme-dark { 
+                {`.theme-dark { 
   --bg: #1e293b;
   --text: #f8fafc;
 }
@@ -349,7 +388,7 @@ h1, h2, h3 { font-weight: 600; }`}
           <div style={{ marginTop: '1.5rem', padding: '1.2rem', background: '#f0f9ff', borderRadius: '10px', border: '1px solid #0ea5e9' }}>
             <strong style={{ color: '#0c4a6e' }}>📂 SMACSS 파일 구조 예시</strong>
             <pre style={{ marginTop: '0.75rem', background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.85rem', overflow: 'auto' }}>
-{`styles/
+              {`styles/
 ├── base/
 │   ├── _reset.css
 │   └── _typography.css
@@ -376,14 +415,14 @@ h1, h2, h3 { font-weight: 600; }`}
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <strong style={{ color: '#78350f' }}>BEM</strong>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#78350f' }}>
-                  클래스 명명 규칙에 집중<br/>
+                  클래스 명명 규칙에 집중<br />
                   <code>.block__element--modifier</code>
                 </p>
               </div>
               <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
                 <strong style={{ color: '#78350f' }}>SMACSS</strong>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#78350f' }}>
-                  스타일 분류 & 파일 구조에 집중<br/>
+                  스타일 분류 & 파일 구조에 집중<br />
                   Base, Layout, Module, State, Theme
                 </p>
               </div>
@@ -442,7 +481,7 @@ h1, h2, h3 { font-weight: 600; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>1. Settings</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`:root {
+                {`:root {
   --color-primary: #3b82f6;
   --spacing-md: 1rem;
 }`}
@@ -452,7 +491,7 @@ h1, h2, h3 { font-weight: 600; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>2. Tools</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`/* Sass Mixins 등 */
+                {`/* Sass Mixins 등 */
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -463,7 +502,7 @@ h1, h2, h3 { font-weight: 600; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>3. Generic</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`*, *::before, *::after {
+                {`*, *::before, *::after {
   box-sizing: border-box;
 }
 body { margin: 0; }`}
@@ -473,7 +512,7 @@ body { margin: 0; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>4. Elements</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`a { color: var(--color-primary); }
+                {`a { color: var(--color-primary); }
 h1 { font-size: 2rem; }
 img { max-width: 100%; }`}
               </pre>
@@ -482,7 +521,7 @@ img { max-width: 100%; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>5. Objects</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`.o-container { max-width: 1200px; }
+                {`.o-container { max-width: 1200px; }
 .o-grid { display: grid; }
 .o-media { display: flex; }`}
               </pre>
@@ -491,7 +530,7 @@ img { max-width: 100%; }`}
             <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h5 style={{ marginTop: 0, color: '#64748b' }}>6. Components</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`.c-card { }
+                {`.c-card { }
 .c-button { }
 .c-modal { }
 .c-nav { }`}
@@ -501,7 +540,7 @@ img { max-width: 100%; }`}
             <div style={{ padding: '1rem', background: '#fef2f2', borderRadius: '8px', border: '1px solid #fecaca' }}>
               <h5 style={{ marginTop: 0, color: '#b91c1c' }}>7. Trumps ⚠️</h5>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '0.5rem', borderRadius: '4px', fontSize: '0.75rem', margin: 0 }}>
-{`/* 최후의 수단! */
+                {`/* 최후의 수단! */
 .u-hidden { display: none !important; }
 .u-text-center { text-align: center !important; }`}
               </pre>
@@ -511,7 +550,7 @@ img { max-width: 100%; }`}
           <div style={{ marginTop: '1.5rem', padding: '1.2rem', background: '#f0f9ff', borderRadius: '10px', border: '1px solid #0ea5e9' }}>
             <strong style={{ color: '#0c4a6e' }}>📂 ITCSS 파일 구조 예시</strong>
             <pre style={{ marginTop: '0.75rem', background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.85rem', overflow: 'auto' }}>
-{`styles/
+              {`styles/
 ├── 1-settings/
 │   └── _variables.css
 ├── 2-tools/
@@ -556,7 +595,7 @@ img { max-width: 100%; }`}
             <div style={{ padding: '1.5rem', background: '#fef2f2', borderRadius: '12px', border: '2px solid #fecaca' }}>
               <h4 style={{ marginTop: 0, color: '#b91c1c' }}>❌ 기존 방식 (BEM)</h4>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`/* CSS 파일 */
+                {`/* CSS 파일 */
 .card {
   display: flex;
   flex-direction: column;
@@ -577,7 +616,7 @@ img { max-width: 100%; }`}
             <div style={{ padding: '1.5rem', background: '#d1fae5', borderRadius: '12px', border: '2px solid #10b981' }}>
               <h4 style={{ marginTop: 0, color: '#065f46' }}>✅ Utility-First</h4>
               <pre style={{ background: '#0f172a', color: '#e2e8f0', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`/* 미리 정의된 유틸리티들 */
+                {`/* 미리 정의된 유틸리티들 */
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .p-8 { padding: 2rem; }
@@ -638,7 +677,7 @@ img { max-width: 100%; }`}
               실무에서는 <strong>컴포넌트는 BEM으로, 레이아웃/간격은 유틸리티로</strong> 혼합하는 경우가 많습니다.
             </p>
             <pre style={{ marginTop: '0.75rem', background: '#0f172a', color: '#e2e8f0', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', overflow: 'auto' }}>
-{`<div class="card flex flex-col gap-4 p-6">
+              {`<div class="card flex flex-col gap-4 p-6">
   <h3 class="card__title text-lg font-bold">제목</h3>
   <p class="card__body text-gray-600">내용</p>
   <button class="btn btn--primary mt-auto">버튼</button>

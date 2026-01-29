@@ -15,7 +15,6 @@ function BoxModelStudy() {
   const [boxSizing, setBoxSizing] = useState('content-box');
   const [padding, setPadding] = useState('20px');
   const [border, setBorder] = useState('5px');
-  const [margin, setMargin] = useState('10px');
   const [layerView, setLayerView] = useState('3D Layers'); // 심화 학습 섹션의 탭 상태
   const [margin1, setMargin1] = useState('50px'); // Margin Collapse용 Box 1 마진
   const [margin2, setMargin2] = useState('30px'); // Margin Collapse용 Box 2 마진
@@ -540,6 +539,63 @@ function BoxModelStudy() {
               <code>background-clip: padding-box</code> (패딩까지 칠하기)<br />
               <code>background-clip: border-box</code> (테두리까지 칠하기 - 기본값)
             </p>
+            <div style={{ marginTop: '1rem', padding: '0.75rem', background: '#fffbeb', borderRadius: '6px', border: '1px solid #fde68a' }}>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#92400e' }}>
+                <strong>❓ 왜 content-box와 padding-box가 똑같이 보이나요?</strong><br />
+                패딩(<code>padding</code>) 값이 0이거나, 배경이 단색이라 영역 구분이 안 될 때 발생합니다.<br />
+                패딩을 충분히(ex: 20px 이상) 준 상태에서 확인해보면, <code>content-box</code>는 패딩 영역이 투명하게 비어서 나타나는 것을 볼 수 있습니다.
+              </p>
+            </div>
+
+            <h4 style={{ marginTop: '2rem', color: '#334155' }}>👀 실전 비교: content-box vs padding-box</h4>
+            <LiveCodeEditor
+              scopeId="bg-clip-comparison"
+              previewHeight="300px"
+              codeHeight="400px"
+              initialCss={`.compare-container {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  background: #f1f5f9;
+  border-radius: 12px;
+}
+
+.box {
+  width: 150px;
+  height: 150px;
+  padding: 30px; /* 패딩을 크게 주어야 차이가 명확함 */
+  border: 10px dashed rgba(0,0,0,0.1);
+  background-color: #3b82f6; 
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* 1. 패딩 영역까지 배경이 칠해짐 */
+.clip-padding {
+  background-clip: padding-box;
+}
+
+/* 2. 내용 영역에만 배경이 칠해짐 (패딩 영역은 투명) */
+.clip-content {
+  background-clip: content-box;
+}
+`}
+              initialHtml={`<div class="compare-container">
+  <div class="box clip-padding">
+    padding-box<br/>(배경 꽉 참)
+  </div>
+  <div class="box clip-content">
+    content-box<br/>(가운데만 칠함)
+  </div>
+</div>
+<p style="margin-top: 1rem; font-size: 0.85rem; color: #64748b;">
+  위 <b>content-box</b> 예시에서 배경색이 없는 바깥쪽 영역이 바로 <b>패딩(30px)</b> 공간입니다.
+</p>`}
+            />
           </div>
         </div>
       </CollapsibleSection>

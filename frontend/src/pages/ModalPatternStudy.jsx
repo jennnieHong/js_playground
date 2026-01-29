@@ -3,15 +3,12 @@
  * 팝업/모달 열고 닫는 효과와 "보임 상태"와 "존재 상태" 분리의 중요성을 학습하는 페이지입니다.
  * 주요 개념: display vs visibility vs opacity, 애니메이션 가능 여부, 올바른 모달 패턴
  */
-import { useState } from 'react';
+import {  } from 'react';
 import LiveCodeEditor from '../components/LiveCodeEditor';
 import PageHeader from '../components/PageHeader';
 import CollapsibleSection from '../components/CollapsibleSection';
 
 function ModalPatternStudy() {
-  const [showDisplayModal, setShowDisplayModal] = useState(false);
-  const [showVisibilityModal, setShowVisibilityModal] = useState(false);
-  const [showCorrectModal, setShowCorrectModal] = useState(false);
 
   return (
     <div className="page-container">

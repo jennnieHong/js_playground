@@ -21,7 +21,7 @@ function CollapsibleSection({ id, title, children, initiallyOpen = false, classN
         ? `${title.replace(/\s+/g, '-').toLowerCase()}-${reactId}` 
         : `section-${reactId}`);
 
-    const toggleSection = (e) => {
+    const toggleSection = () => {
         // 텍스트 선택 중이라면 토글하지 않음
         const selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
