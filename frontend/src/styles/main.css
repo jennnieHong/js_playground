@@ -58,7 +58,7 @@
 
   /* Layout */
   --nav-width: 280px;
-  --nav-width-collapsed: 60px;
+  --nav-width-collapsed: 48px;
   --header-height: 60px;
 }
 
@@ -83,7 +83,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  background-color: var(--bg-primary); /* Prevents white flash */
+  background-color: var(--bg-primary);
+  /* Prevents white flash */
 }
 
 body {
@@ -110,7 +111,8 @@ pre {
 
 .main-content {
   flex: 1;
-  margin-left: var(--nav-width-collapsed); /* 기본 닫힘 상태 */
+  margin-left: var(--nav-width-collapsed);
+  /* 기본 닫힘 상태 */
   padding: var(--spacing-xl);
   background: var(--bg-gradient);
   min-height: 100vh;

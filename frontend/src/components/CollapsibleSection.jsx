@@ -1,4 +1,4 @@
-import { useState, useId } from 'react';
+import { useState, useId, useEffect } from 'react';
 
 /**
  * CollapsibleSection
@@ -17,8 +17,8 @@ function CollapsibleSection({ id, title, children, initiallyOpen = false, classN
     const reactId = useId().replace(/:/g, ''); // : 기호 제거 (ID 호환성)
 
     // title이 문자열인 경우 + 유니크 ID 접미사 추가
-    const sectionId = id || (typeof title === 'string' 
-        ? `${title.replace(/\s+/g, '-').toLowerCase()}-${reactId}` 
+    const sectionId = id || (typeof title === 'string'
+        ? `${title.replace(/\s+/g, '-').toLowerCase()}-${reactId}`
         : `section-${reactId}`);
 
     const toggleSection = () => {
@@ -30,9 +30,20 @@ function CollapsibleSection({ id, title, children, initiallyOpen = false, classN
         setIsOpen(!isOpen);
     };
 
+    useEffect(() => {
+        const handleToggleAll = (e) => {
+            if (e.detail && typeof e.detail.open === 'boolean') {
+                setIsOpen(e.detail.open);
+            }
+        };
+
+        window.addEventListener('COLLAPSE_ALL_SECTIONS', handleToggleAll);
+        return () => window.removeEventListener('COLLAPSE_ALL_SECTIONS', handleToggleAll);
+    }, []);
+
     return (
-        <section 
-            id={sectionId} 
+        <section
+            id={sectionId}
             className={`study-section ${className}`}
             data-section
         >

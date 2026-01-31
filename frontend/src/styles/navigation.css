@@ -3,14 +3,17 @@
   position: fixed;
   left: 0;
   top: 0;
-  width: var(--nav-width-collapsed); /* 기본적으로 닫힌 상태 */
+  width: var(--nav-width-collapsed);
+  /* 기본적으로 닫힌 상태 */
   height: 100vh;
   background: var(--bg-secondary);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Use inner scroll for menu */
-  z-index: 200; /* header search(z-index: 100)보다 위에 */
+  overflow: hidden;
+  /* Use inner scroll for menu */
+  z-index: 200;
+  /* header search(z-index: 100)보다 위에 */
   box-shadow: var(--shadow-xl);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -35,10 +38,9 @@
 /* 기본 상태 (닫힘) */
 @media (min-width: 769px) {
   .nav-header {
-    justify-content: center;
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
-  
+
   .navigation:hover .nav-header {
     justify-content: space-between;
     padding: var(--spacing-xl);
@@ -67,21 +69,21 @@
     background: none;
     -webkit-text-fill-color: white;
   }
-  
+
   .nav-logo::before {
     content: '☰';
     display: inline-block;
   }
-  
+
   /* 실제 텍스트 숨김 */
   .nav-logo {
     font-size: 0;
   }
-  
+
   .nav-logo::before {
     font-size: 2rem;
   }
-  
+
   /* 호버 시 텍스트 표시, 아이콘 숨김 */
   .navigation:hover .nav-logo {
     font-size: 1.5rem;
@@ -90,7 +92,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .navigation:hover .nav-logo::before {
     content: '';
     display: none;
@@ -186,12 +188,13 @@
 
 /* 데스크톱: 기본 중앙 정렬, 호버 시 왼쪽 정렬 */
 @media (min-width: 769px) {
+
   .nav-link,
   .nav-category {
     justify-content: center;
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: var(--spacing-md) 0;
   }
-  
+
   .navigation:hover .nav-link,
   .navigation:hover .nav-category {
     justify-content: flex-start;
@@ -237,7 +240,7 @@
     opacity: 0;
     width: 0;
   }
-  
+
   .navigation:hover .nav-title {
     opacity: 1;
     width: auto;
@@ -255,7 +258,7 @@
   .nav-submenu {
     display: none;
   }
-  
+
   .navigation:hover .nav-submenu {
     display: block;
   }
@@ -297,28 +300,28 @@
     /* 모바일에서는 더 좁게 */
     z-index: 1000;
   }
-  
+
   /* 모바일: 클래스로 제어 */
   .navigation.collapsed {
     width: var(--nav-width-collapsed);
   }
-  
+
   .navigation.collapsed .nav-header {
     justify-content: center;
     padding: var(--spacing-md);
   }
-  
+
   .navigation.collapsed .nav-link,
   .navigation.collapsed .nav-category {
     justify-content: center;
     padding: var(--spacing-md) var(--spacing-sm);
   }
-  
+
   .navigation.collapsed .nav-title {
     opacity: 0;
     width: 0;
   }
-  
+
   .navigation.collapsed .nav-submenu {
     display: none;
   }
