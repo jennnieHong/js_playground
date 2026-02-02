@@ -7,7 +7,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dbPath = path.join(__dirname, '../database/cssStudy.db');
+const dbPath = path.join(__dirname, '../database/jsStudy.db');
 const dbDir = path.dirname(dbPath);
 
 // Create database directory if it doesn't exist

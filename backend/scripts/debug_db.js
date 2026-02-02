@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 const dbPath = path.join(__dirname, '../database/jsStudy.db');
 const db = new sqlite3.Database(dbPath);
 
-db.all('SELECT id, title, parent_id FROM menus', (err, rows) => {
+db.all('SELECT title FROM menus LIMIT 10', (err, rows) => {
   if (err) {
     console.error(err);
   } else {

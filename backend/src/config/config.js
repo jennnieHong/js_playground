@@ -8,7 +8,7 @@ const config = {
   db: {
     type: process.env.DB_TYPE || 'sqlite',
     sqlite: {
-      path: process.env.SQLITE_PATH || './database/cssStudy.db'
+      path: process.env.SQLITE_PATH || './database/jsStudy.db'
     },
     postgresql: {
       host: process.env.PG_HOST || 'localhost',

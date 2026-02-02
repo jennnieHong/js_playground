@@ -6,7 +6,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dbPath = path.join(__dirname, '../database/cssStudy.db');
+const dbPath = path.join(__dirname, '../database/jsStudy.db');
 const db = new sqlite3.Database(dbPath);
 
 // First, find the parent_id for Layout category
