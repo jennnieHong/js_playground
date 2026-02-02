@@ -130,6 +130,8 @@ export const pageMetadata = [
         title: '14. DOM 조작기초',
         tags: [
             'dom', 'manipulation', 'querySelector', 'innerHTML', 'textContent', 'style', 'classList',
+            'dataset', 'data-*', 'custom data', 'metadata', '데이터셋', '데이터 속성',
+            'reflow', 'repaint', 'layout thrashing', 'performance', '성능 최적화',
             'collapsible', 'section toggle', 'open all', 'close all', '전체 열기', '전체 닫기'
         ],
         description: '자바스크립트로 HTML 요소를 찾고 수정하는 방법을 배웁니다.'
@@ -140,9 +142,28 @@ export const pageMetadata = [
         tags: [
             'dom', 'essentials', 'element', 'node', 'tree', 'traversal', 'hierarchy',
             'identity', 'data', 'interaction', 'structure', '핵심 요소', '노드', '트리 구조',
-            'collapsible', 'section toggle', 'nodeType', 'tagName', 'dataset', 'parentElement', 'children'
+            'collapsible', 'section toggle', 'nodeType', 'tagName', 'dataset', 'parentElement', 'children',
+            'carousel', 'slider', 'slide', 'translateX', '슬라이더', '캐러셀', '이동'
         ],
         description: 'DOM의 논리적 구조와 요소를 다룰 때 반드시 알아야 할 핵심 속성들을 학습합니다.'
+    },
+    {
+        path: '/js/browser-bom-dom',
+        title: '14.7 브라우저 객체 (BOM vs DOM)',
+        tags: [
+            'window', 'document', 'BOM', 'DOM', 'navigator', 'location', 'history', 'screen',
+            'global object', '전역 객체', '계층 구조', 'hierarchy', 'browser object model'
+        ],
+        description: '브라우저 환경의 전역 객체인 window(BOM)와 그 자식인 document(DOM)의 관계와 역할을 이해합니다.'
+    },
+    {
+        path: '/js/bom-mastery',
+        title: '14.8 BOM API 마스터 (Deep Dive)',
+        tags: [
+            'BOM', 'window', 'location', 'navigator', 'history', 'screen', 'mastery',
+            'URLSearchParams', 'pushState', 'popstate', 'userAgent', 'deep dive', '상세 학습'
+        ],
+        description: '브라우저 자체를 제어하는 BOM의 핵심 객체(Location, History, Navigator 등)를 상세히 학습합니다.'
     },
     {
         path: '/js/events',

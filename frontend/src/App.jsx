@@ -23,6 +23,8 @@ import JsArraysStudy from './pages/JsArraysStudy';
 import JsObjectsStudy from './pages/JsObjectsStudy';
 import JsDomManipulationStudy from './pages/JsDomManipulationStudy';
 import JsDomEssentialsStudy from './pages/JsDomEssentialsStudy';
+import JsBrowserObjectStudy from './pages/JsBrowserObjectStudy';
+import JsBomMasteryStudy from './pages/JsBomMasteryStudy';
 import JsEventsStudy from './pages/JsEventsStudy';
 import JsAsyncBasicsStudy from './pages/JsAsyncBasicsStudy';
 import JsAsyncFetchStudy from './pages/JsAsyncFetchStudy';
@@ -79,6 +81,8 @@ function App() {
             <Route path="/js/objects" element={<JsObjectsStudy />} />
             <Route path="/js/dom-manipulation" element={<JsDomManipulationStudy />} />
             <Route path="/js/dom-essentials" element={<JsDomEssentialsStudy />} />
+            <Route path="/js/browser-bom-dom" element={<JsBrowserObjectStudy />} />
+            <Route path="/js/bom-mastery" element={<JsBomMasteryStudy />} />
             <Route path="/js/events" element={<JsEventsStudy />} />
             <Route path="/js/async-basics" element={<JsAsyncBasicsStudy />} />
             <Route path="/js/async-fetch" element={<JsAsyncFetchStudy />} />

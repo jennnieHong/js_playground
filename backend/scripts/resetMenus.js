@@ -78,6 +78,8 @@ db.serialize(() => {
       children: [
         { title: '20. DOM Manipulation', path: '/js/dom-manipulation', icon: '🖱️', order: 20 },
         { title: '21. DOM Essentials', path: '/js/dom-essentials', icon: '🏛️', order: 21 },
+        { title: '21.5 Browser Object (BOM/DOM)', path: '/js/browser-bom-dom', icon: '🌐', order: 21.5 },
+        { title: '21.6 BOM Mastery (Deep Dive)', path: '/js/bom-mastery', icon: '🚀', order: 21.6 },
         { title: '22. Event Handling', path: '/js/events', icon: '⚡', order: 22 },
         { title: '23. Async & Promises', path: '/js/async-basics', icon: '⏳', order: 23 },
         { title: '24. Fetch & Web APIs', path: '/js/async-fetch', icon: '📡', order: 24 },

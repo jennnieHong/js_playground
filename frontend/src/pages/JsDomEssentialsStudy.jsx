@@ -384,7 +384,68 @@ btn.onclick = () => {
                 />
             </CollapsibleSection>
 
-            <CollapsibleSection title="8. FAQ 및 요약">
+            <CollapsibleSection title="8. 실무 응용: 이미지 슬라이더 (Carousel)">
+                <div className="concepts">
+                    <p><code>offsetWidth</code>와 <code>dataset</code>을 실무에서 가장 화려하게 사용하는 사례 중 하나인 <strong>캐러셀(슬라이더)</strong>을 구현해 봅니다.</p>
+                    <div className="info-box" style={{ background: '#f5f3ff', border: '1px solid #ddd6fe' }}>
+                        <strong style={{ color: '#5b21b6' }}>💡 핵심 원리</strong>
+                        <ul style={{ margin: '5px 0 0 0', fontSize: '0.9rem', color: '#5b21b6', lineHeight: '1.6' }}>
+                            <li>현재 몇 번째 슬라이드인지 <code>dataset.index</code>로 관리합니다.</li>
+                            <li>슬라이더 한 칸의 너비를 <code>offsetWidth</code>로 정확히 측정합니다.</li>
+                            <li>전체 컨테이너를 <code>translateX</code>를 이용해 옆으로 밀어줍니다.</li>
+                        </ul>
+                    </div>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-dom-carousel"
+                    initialHtml={`<div id="carousel-container" style="width: 300px; overflow: hidden; border: 4px solid #333; border-radius: 12px; position: relative; background: #fff;">
+  <div id="slider" data-index="0" style="display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;">
+    <div class="slide" style="min-width: 100%; height: 200px; background: #fca5a5; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">Slide 1</div>
+    <div class="slide" style="min-width: 100%; height: 200px; background: #93c5fd; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">Slide 2</div>
+    <div class="slide" style="min-width: 100%; height: 200px; background: #86efac; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: bold;">Slide 3</div>
+  </div>
+  
+  <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+    <button class="nav-btn" data-move="prev" style="padding: 4px 8px; cursor: pointer; border: none; border-radius: 4px; background: rgba(0,0,0,0.5); color: white;">PREV</button>
+    <button class="nav-btn" data-move="next" style="padding: 4px 8px; cursor: pointer; border: none; border-radius: 4px; background: rgba(0,0,0,0.5); color: white;">NEXT</button>
+  </div>
+</div>` + consoleHtml}
+                    initialJs={`const slider = document.querySelector('#js-dom-carousel #slider');
+const navBtns = document.querySelectorAll('#js-dom-carousel .nav-btn');
+const slides = document.querySelectorAll('#js-dom-carousel .slide');
+
+navBtns.forEach(btn => {
+  btn.onclick = () => {
+    // 1. 현재 인덱스 가져오기 (dataset 활용)
+    let index = parseInt(slider.dataset.index);
+    const direction = btn.dataset.move;
+    
+    // 2. 인덱스 계산
+    if (direction === 'next') {
+      index = (index + 1) % slides.length;
+    } else {
+      index = (index - 1 + slides.length) % slides.length;
+    }
+    
+    // 3. 인덱스 업데이트
+    slider.dataset.index = index;
+    
+    // 4. 이동 거리 계산 (offsetWidth 활용)
+    // 부모 너비를 기준으로 이동합니다.
+    const slideWidth = slider.offsetWidth;
+    const moveX = index * slideWidth;
+    
+    // 5. 실제 이동 적용
+    slider.style.transform = \`translateX(-\${moveX}px)\`;
+    
+    log(\`[\${direction.toUpperCase()}] Current Slide: \${index + 1}\`);
+    log(\`Moved: -\${moveX}px\`);
+  };
+});`}
+                />
+            </CollapsibleSection>
+
+            <CollapsibleSection title="9. FAQ 및 요약">
                 <div className="concepts">
                     <h4 style={{ color: '#1e293b' }}>Q. NodeList나 HTMLCollection은 어떻게 확인하나요?</h4>
                     <p>커스텀 로그 창에서 <code>[object NodeList]</code>라고 표시될 때는 다음 방법들을 사용하세요.</p>
