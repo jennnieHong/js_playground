@@ -292,15 +292,15 @@ log("copied: " + copiedObj.value); // 같이 "Modified"로 변함! (공유 중)`
               <tbody>
                 <tr>
                   <td><strong>Pass-by-Value</strong></td>
-                  <td>값 자체를 복사하여 전달 (원시 타입)</td>
+                  <td>모든 전달의 기본 원칙. 원시 타입은 <strong>실제 값</strong>을, 참조 타입은 <strong>메모리 주소 값</strong>을 복사해서 전달합니다. (JS는 엄격히 항상 이 방식입니다)</td>
                 </tr>
                 <tr>
                   <td><strong>Pass-by-Reference</strong></td>
-                  <td>메모리 주소를 직접 전달 (객체)</td>
+                  <td>메모리 주소를 직접 공유하는 방식. JS에서는 객체를 다룰 때 논리적으로 이처럼 행동하지만, 실제로는 주소 '값'을 복사하는 것이라 차이가 있습니다.</td>
                 </tr>
                 <tr>
                   <td><strong>Pass-by-Sharing</strong></td>
-                  <td>자바스크립트가 실제로 사용하는 방식 (값으로서의 참조 전달)</td>
+                  <td>자바스크립트의 실제 원리를 가장 잘 설명하는 용어. (객체의 참조 복사본을 전달하여 원본 내부 수정은 가능하게 하되, 재할당은 막힘)</td>
                 </tr>
                 <tr>
                   <td><strong>Shallow Copy</strong></td>
@@ -322,26 +322,29 @@ log("copied: " + copiedObj.value); // 같이 "Modified"로 변함! (공유 중)`
           `}</style>
         </div>
         <LiveCodeEditor
-          scopeId="js-basics-copy-deep"
+          scopeId="js-basics-copy-modern"
           initialHtml={consoleHtml}
-          initialJs={`// 1. Shallow Copy (얕은 복사)
-const original = { a: 1, nested: { b: 2 } };
-const shallow = { ...original }; // Spread 연산자는 얕은 복사를 수행함
+          initialJs={`// 1. 얕은 복사 (Shallow Copy) - 스프레드(...) 연산자
+const user = { 
+  name: "원본", 
+  interests: ["JS", "CSS"] // 중첩된 배열(객체)
+};
 
-shallow.a = 99;
-shallow.nested.b = 99; // 얕은 복사라 내부 객체는 공유됨!
+const shallow = { ...user }; // 껍데기만 복제!
+shallow.name = "수정본";
+shallow.interests.push("React"); // 🚨 위험: 알맹이 주소는 공유됨
 
-log("[Shallow Copy Result]");
-log("original.a: " + original.a); // 1 (변경 안됨)
-log("original.nested.b: " + original.nested.b); // 99 (같이 변함!)
+log("--- 얕은 복사 결과 ---");
+log("원본 이름: " + user.name);      // "원본" (1단계는 안전)
+log("원본 관심사: " + user.interests); // ["JS", "CSS", "React"] (원본 오염! 😱)
 
-// 2. Deep Copy (깊은 복사)
-const deep = JSON.parse(JSON.stringify(original));
-deep.nested.b = 1000;
+// 2. 깊은 복사 (Deep Copy) - structuredClone (최신 표준)
+const deep = structuredClone(user); // 내부까지 싹 바꿈!
+deep.interests.push("Vue");
 
-log("\\n[Deep Copy Result]");
-log("original.nested.b: " + original.nested.b); // 99 (영향 없음)
-log("deep.nested.b: " + deep.nested.b); // 1000`}
+log("\\n--- 깊은 복사 결과 ---");
+log("원본 관심사: " + user.interests); // ["JS", "CSS", "React"] (변함없음, 안전)
+log("깊은 복사본: " + deep.interests);  // ["JS", "CSS", "React", "Vue"]`}
         />
       </CollapsibleSection>
 

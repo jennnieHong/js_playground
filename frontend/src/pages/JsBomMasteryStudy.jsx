@@ -207,6 +207,147 @@ log("사용 가능 높이: " + screen.availHeight + "px");
 log("픽셀 밀도: " + window.devicePixelRatio);`}
                 />
             </CollapsibleSection>
+            <CollapsibleSection title="6. 실전! SPA 라우팅과 상태 복원">
+                <div className="concepts">
+                    <p>현대 브라우저 환경에서 가장 중요한 BOM 활용 사례입니다. 페이지 전환 없이 URL만 바꾸는 <strong>SPA(Single Page Application)</strong>의 핵심 원리를 이해합니다.</p>
+
+                    <div className="info-grid">
+                        <div className="info-card" style={{ borderTop: '4px solid #3b82f6' }}>
+                            <h4 style={{ color: '#1d4ed8' }}>🛤️ SPA 라우팅의 원리</h4>
+                            <p style={{ fontSize: '0.85rem' }}>전체 페이지를 새로고침(Refresh)하지 않고, JS가 <code>history.pushState</code>를 이용해 주소창만 바꾼 뒤 필요한 데이터만 가져와 화면을 '부분 교체'하는 방식입니다.</p>
+                        </div>
+                        <div className="info-card" style={{ borderTop: '4px solid #ef4444' }}>
+                            <h4 style={{ color: '#b91c1c' }}>↩️ 뒤로가기 제어 (popstate)</h4>
+                            <p style={{ fontSize: '0.85rem' }}>브라우저의 뒤로가기/앞으로가기 버튼을 누르면 <code>popstate</code> 이벤트가 발생합니다. 이때 저장해둔 상태(state)를 꺼내 화면을 다시 그려야 합니다.</p>
+                        </div>
+                        <div className="info-card" style={{ borderTop: '4px solid #10b981' }}>
+                            <h4 style={{ color: '#047857' }}>💾 상태 복원 (State Restoration)</h4>
+                            <p style={{ fontSize: '0.85rem' }}>상세 페이지를 보고 뒤로 왔을 때 <strong>스크롤 위치</strong>나 <strong>입력했던 검색어</strong>가 유지되게 하려면 <code>history.state</code>나 <code>sessionStorage</code>를 활용합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <LiveCodeEditor
+                    scopeId="js-bom-spa-routing"
+                    initialHtml={`<nav id="spa-nav" style="display: flex; gap: 10px; margin-bottom: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+  <button data-path="home" style="padding: 5px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: white;">홈</button>
+  <button data-path="profile" style="padding: 5px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: white;">프로필</button>
+  <button data-path="settings" style="padding: 5px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: white;">설정</button>
+</nav>
+
+<div id="app-view" style="min-height: 100px; padding: 20px; border: 2px dashed #cbd5e1; border-radius: 12px; background: white; margin-bottom: 10px;">
+  브라우저 주소창과 아래 로그를 확인하며 버튼을 눌러보세요!
+</div>` + consoleHtml}
+                    initialJs={`const view = document.querySelector('#js-bom-spa-routing #app-view');
+const nav = document.querySelector('#js-bom-spa-routing #spa-nav');
+
+// 페이지(뷰) 데이터
+const routes = {
+  home: { title: "🏠 홈 화면", content: "환영합니다! 이곳은 메인 페이지입니다.", color: "#eff6ff" },
+  profile: { title: "👤 프로필", content: "사용자 정보와 업적을 확인하세요.", color: "#f0fdf4" },
+  settings: { title: "⚙️ 설정", content: "앱의 다양한 옵션을 조정할 수 있습니다.", color: "#fff7ed" }
+};
+
+// 1. 화면 렌더링 함수
+function render(path, state = {}) {
+  const page = routes[path] || routes.home;
+  view.style.background = page.color;
+  view.innerHTML = '<h3>' + page.title + '</h3><p>' + page.content + '</p><small>상태 데이터: ' + JSON.stringify(state) + '</small>';
+  log('📍 현재 경로: ' + path + ' 로 렌더링됨');
+}
+
+// 2. 경로 이동 처리 (pushState)
+nav.onclick = (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const path = e.target.dataset.path;
+  const state = { page: path, time: new Date().toLocaleTimeString() };
+  
+  // 주소창 변경 (실제 이동 X)
+  const fakePath = "#/spa/" + path;
+  history.pushState(state, "", fakePath);
+  
+  render(path, state);
+  log('🚀 pushState: ' + fakePath + ' (기록에 남김)');
+};
+
+// 3. 뒤로가기/앞으로가기 감지 (popstate)
+window.addEventListener('popstate', (e) => {
+  log("↩️ popstate 발생! 사용자가 브라우저 이동 버튼을 눌렀습니다.");
+  if (e.state && e.state.page) {
+    render(e.state.page, e.state);
+    log("💾 저장된 상태로 화면 복원 완료!");
+  } else {
+    render('home');
+    log("🏠 초기 상태로 복구");
+  }
+});
+
+// 초기 실행
+render('home');`}
+                />
+
+                <div className="info-box" style={{ background: '#f5f3ff', border: '1px solid #ddd6fe', marginTop: '1.5rem' }}>
+                    <h4 style={{ color: '#5b21b6', margin: '0 0 10px 0' }}>💡 Deep Dive: popstate 이벤트 완벽 이해</h4>
+                    <p style={{ fontSize: '0.9rem', color: '#5b21b6', lineHeight: '1.6' }}>
+                        <code>popstate</code>는 브라우저의 <strong>'뒤로가기'</strong>나 <strong>'앞으로가기'</strong> 버튼을 클릭했을 때 발생하는 이벤트입니다. SPA의 생명줄과도 같죠.
+                    </p>
+                    <ul style={{ fontSize: '0.85rem', color: '#5b21b6', lineHeight: '1.7', marginTop: '8px' }}>
+                        <li><strong>발생 시점:</strong> 사용자가 브라우저 이동 버튼을 누르거나, JS에서 <code>history.back()</code>, <code>forward()</code>를 호출할 때만 발생합니다.</li>
+                        <li><strong>중요!:</strong> <code>history.pushState()</code>나 <code>replaceState()</code>를 호출할 때는 <strong>발생하지 않습니다.</strong> (주소만 바꾼 것이지, '이동'한 것이 아니기 때문)</li>
+                        <li><strong>event.state:</strong> <code>pushState</code>를 할 때 첫 번째 인자로 넘겨준 객체를 그대로 전달받습니다. 이 안에 페이지 제목, 스크롤 위치 등을 담아두면 복원이 가능합니다.</li>
+                    </ul>
+                </div>
+            </CollapsibleSection>
+            <CollapsibleSection title="7. 궁금증 해소: SPA 라우팅 vs 탭 기능">
+                <div className="concepts">
+                    <p>위의 SPA 예제가 마치 <strong>'탭(Tab) 메뉴'</strong>처럼 보이셨나요? 정답입니다! 둘은 구조적으로 매우 닮았습니다.</p>
+
+                    <div className="info-box" style={{ background: '#fffbeb', border: '1px solid #fcd34d' }}>
+                        <strong style={{ color: '#92400e' }}>🤝 공통점</strong>
+                        <p style={{ fontSize: '0.9rem', color: '#92400e' }}>한 화면에서 사용자의 클릭에 따라 '보여주는 데이터'만 바꿉니다.</p>
+                        <strong style={{ color: '#92400e', display: 'block', marginTop: '10px' }}>⚔️ 결정적 차이 (URL의 유무)</strong>
+                        <ul style={{ fontSize: '0.85rem', color: '#92400e', lineHeight: '1.6' }}>
+                            <li><strong>일반적인 탭:</strong> 주소창이 변하지 않습니다. 새로고침을 하면 첫 번째 탭으로 초기화됩니다.</li>
+                            <li><strong>SPA 라우팅:</strong> 주소창이 변합니다. 특정 주소를 복사해서 친구에게 보내면, 친구도 <strong>똑같은 화면</strong>을 볼 수 있습니다.</li>
+                        </ul>
+                    </div>
+
+                    <h4 style={{ color: '#1e293b', marginTop: '1.5rem' }}>🧐 탭 구현, CSS가 좋을까 JS가 좋을까?</h4>
+                    <p>상황에 따라 정답이 다릅니다. 아래 가이드를 참고해 보세요.</p>
+
+                    <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px', fontSize: '0.85rem' }}>
+                        <thead>
+                            <tr style={{ background: '#f8fafc', textAlign: 'left' }}>
+                                <th style={{ padding: '10px', border: '1px solid #e2e8f0' }}>방식</th>
+                                <th style={{ padding: '10px', border: '1px solid #e2e8f0' }}>장점</th>
+                                <th style={{ padding: '10px', border: '1px solid #e2e8f0' }}>단점</th>
+                                <th style={{ padding: '10px', border: '1px solid #e2e8f0' }}>추천 상황</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontWeight: 'bold', color: '#2563eb' }}>CSS 기반<br/>(Checkbox/Radio)</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>성능 최상, JS 없이도 동작, 애니메이션이 매끄러움</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>복잡한 로직(로그인 체크 등) 불가, URL 연동 어려움</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>간단한 UI 설정, 디자인 위주의 사이트</td>
+                            </tr>
+                            <tr>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontWeight: 'bold', color: '#059669' }}>JavaScript 기반</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>매우 유연함, <strong>URL과 연동(Deep Linking)</strong> 가능, 외부 데이터 로딩 용이</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>상대적으로 리소스 많이 사용, 브라우저 기록 관리 필요</td>
+                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}><strong>대규모 대시보드</strong>, 회원제 서비스, SEO가 필요한 페이지</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div className="info-box" style={{ background: '#f0fdf4', border: '1px solid #bcf0da', marginTop: '1.5rem' }}>
+                        <strong style={{ color: '#166534' }}>💡 조언</strong>
+                        <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', color: '#166534', lineHeight: '1.6' }}>
+                            사용자가 <strong>"뒤로가기를 눌렀을 때 이전 탭이 보이길 기대하는가?"</strong>를 생각해보세요. 그렇다면 망설임 없이 **JavaScript(History API)**를 사용해야 합니다. 단순히 디자인적으로 내용을 가리고 보여주는 용도라면 **CSS**만으로 충분합니다.
+                        </p>
+                    </div>
+                </div>
+            </CollapsibleSection>
 
             <div className="info-box" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', marginTop: '2rem' }}>
                 <h4 style={{ color: '#475569', margin: '0 0 10px 0' }}>🎓 요약 및 학습 팁</h4>

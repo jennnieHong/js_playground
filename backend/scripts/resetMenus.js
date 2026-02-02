@@ -42,6 +42,7 @@ db.serialize(() => {
         { title: '4. Operators & Logical', path: '/js/operators', icon: '🧮', order: 4 },
         { title: '5. Conditionals & Ternary', path: '/js/conditionals', icon: '🛤️', order: 5 },
         { title: '6. Loops & Patterns', path: '/js/loops', icon: '🔄', order: 6 },
+        { title: '7. Symbol Deep Dive', path: '/js/symbol', icon: '🔮', order: 7 },
       ]
     },
     {
@@ -69,6 +70,8 @@ db.serialize(() => {
         { title: '17. Number Precision', path: '/js/precision', icon: '🎯', order: 17 },
         { title: '18. ES6+ Modern', path: '/js/modern', icon: '🚀', order: 18 },
         { title: '19. Generators & Currying', path: '/js/advanced-js', icon: '🧪', order: 19 },
+        { title: 'RegExp: Regular Expressions', path: '/js/regexp', icon: '🧩', order: 20 },
+        { title: 'RegExp Challenge (Quiz)', path: '/js/regexp-quiz', icon: '🏆', order: 21 },
       ]
     },
     {

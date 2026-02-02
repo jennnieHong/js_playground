@@ -56,28 +56,96 @@ log("\\nMax value: " + Math.max(...nums)); // Math.max(10, 20, 30) 과 동일`}
       <CollapsibleSection title="2. 구조 분해 할당 (Destructuring)">
         <div className="concepts">
           <p>배열이나 객체의 속성을 해체하여 그 값을 개별 변수에 <strong>'즉시 할당'</strong>하는 문법입니다.</p>
+          
+          <div className="symbol-sub-section">
+            <h4>2.1 기본 객체 & 배열 분해</h4>
+            <LiveCodeEditor
+              scopeId="js-destructuring-basic"
+              initialHtml={consoleHtml}
+              initialJs={`// 1. 객체: 키 이름과 동일한 변수명 사용
+const user = { id: 1, nickname: "JS_Master" };
+const { id, nickname } = user;
+log(\`ID: \${id}, Nick: \${nickname}\`);
+
+// 2. 배열: 순서대로 할당
+const colors = ["Red", "Green", "Blue"];
+const [first, second] = colors;
+log(\`\\nFirst: \${first}, Second: \${second}\`);`}
+            />
+          </div>
+
+          <div className="symbol-sub-section" style={{ marginTop: '20px' }}>
+            <h4>2.2 변수 이름 변경 (Alias) & 기본값 (Default)</h4>
+            <p>데이터의 키 이름이 마음에 들지 않거나, 데이터가 없을 때를 대비할 수 있는 실전 문법입니다.</p>
+            <table className="info-table" style={{ margin: '15px 0' }}>
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>문법</th>
+                  <th>설명</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>이름 변경</strong></td>
+                  <td><code>{`{ key: newName }`}</code></td>
+                  <td>객체의 key를 newName이라는 새 변수로 받음</td>
+                </tr>
+                <tr>
+                  <td><strong>기본값</strong></td>
+                  <td><code>{`{ key = val }`}</code></td>
+                  <td>key가 undefined일 때 사용할 값 지정</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <LiveCodeEditor
+              scopeId="js-destructuring-advanced"
+              initialHtml={consoleHtml}
+              initialJs={`// [상황] API에서 온 사용자 데이터 (키 이름이 kebab-case거나 너무 짧음)
+const apiResponse = {
+  u_name: "홍길동",
+  user_email: "hong@example.com",
+  // age 데이터가 누락된 상황
+};
+
+// 1. 이름 변경 (u_name -> userName)
+// 2. 기본값 설정 (isAdmin이 없으면 false)
+// 3. ✨ 보너스: 이름 변경과 기본값 동시 적용 (rank -> userRank, 없으면 "Guest")
+const { 
+  u_name: userName, 
+  user_email: email, 
+  isAdmin = false,
+  rank: userRank = "Guest" 
+} = apiResponse;
+
+log("이름 변경: " + userName);  // "홍길동"
+log("이메일 변경: " + email);    // "hong@example.com"
+log("기본값 할당: " + isAdmin);  // false (데이터에 없으므로 기본값)
+log("변경 + 기본값: " + userRank); // "Guest" (rank가 없으므로 변경된 이름에 기본값 할당)`}
+            />
+          </div>
+
+          <div className="symbol-sub-section" style={{ marginTop: '20px' }}>
+            <h4>2.3 중첩 객체 구조 분해 (Nested)</h4>
+            <p>깊숙이 숨어있는 속성도 한 번에 꺼낼 수 있습니다.</p>
+            <LiveCodeEditor
+              scopeId="js-destructuring-nested"
+              initialHtml={consoleHtml}
+              initialJs={`const person = {
+  name: "나비",
+  address: {
+    city: "Seoul",
+    zip: "12345"
+  }
+};
+
+// address 객체 안의 city만 바로 꺼내기
+const { address: { city } } = person;
+log("Nested Result: " + city); // "Seoul"`}
+            />
+          </div>
         </div>
-        <LiveCodeEditor
-          scopeId="js-destructuring"
-          initialHtml={consoleHtml}
-          initialJs={`// 1. 객체 구조 분해
-const profile = { nick: "BlackPink", song: "Pink Venom", year: 2022 };
-const { nick, song } = profile;
-
-log("Object Destructuring:");
-log(\`Artist: \${nick}, Song: \${song}\`);
-
-// 2. 배열 구조 분해
-const coords = [100, 200, 300];
-const [x, y] = coords;
-log("\\nArray Destructuring:");
-log(\`X: \${x}, Y: \${y}\`);
-
-// 3. 변수 이름 변경 및 기본값
-const { year: releasedYear, genre = "K-Pop" } = profile;
-log("\\nRenamed & Default:");
-log(\`Year: \${releasedYear}, Genre: \${genre}\`);`}
-        />
       </CollapsibleSection>
 
       <CollapsibleSection title="3. 나머지 매개변수 (...Rest)">
@@ -104,14 +172,61 @@ log("Underdogs: " + rest);`}
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="4. 실무 꿀팁: 얕은 복사와 불변성">
+      <CollapsibleSection title="4. 실무 꿀팁: 얕은 복사(Shallow) vs 깊은 복사(Deep)">
         <div className="concepts">
-          <blockquote>
-            <strong>⚠️ 주의사항:</strong> 스프레드 연산자는 **얕은 복사(Shallow Copy)**를 수행합니다.
-            중첩된 객체가 있다면 내부 객체의 참조 주소는 공유되므로, 완전히 독립적인 복사본을 만들려면 'Deep Copy' 기법을 병용해야 합니다.
-          </blockquote>
-          <p>💡 자세한 내용은 <a href="/js/basics">변수와 기초</a> 페이지의 '메모리 관리' 섹션을 참고하세요.</p>
+          <p>스프레드 연산자를 사용할 때 가장 많이 실수하는 부분이 바로 <strong>복사의 범위</strong>입니다.</p>
+          
+          <div className="info-table-wrapper" style={{ marginTop: '20px' }}>
+            <table className="info-table">
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>특징</th>
+                  <th>사용 방법</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>얕은 복사 (Shallow)</strong></td>
+                  <td>1단계 속성만 복제. 중첩된 객체는 참조(주소)를 공유함</td>
+                  <td><code>{`{ ...obj }`}, `[...arr]`</code></td>
+                </tr>
+                <tr>
+                  <td><strong>깊은 복사 (Deep)</strong></td>
+                  <td>내부의 중첩된 모든 객체까지 완전히 새로 복제함</td>
+                  <td><code>structuredClone(obj)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
+        <LiveCodeEditor
+          scopeId="js-spread-copy-depth"
+          initialHtml={consoleHtml}
+          initialJs={`// [상황] 중첩된 객체가 있는 데이터
+const originalUser = {
+  name: "Kim",
+  settings: { theme: "dark" } // 객체 안의 객체 (중첩)
+};
+
+// 1. 얕은 복사 (Shallow Copy)
+const shallowUser = { ...originalUser };
+shallowUser.name = "Lee";
+shallowUser.settings.theme = "light"; // 🚨 알맹이를 바꾸면?
+
+log("--- 얕은 복사 결과 ---");
+log("원본 이름: " + originalUser.name); // "Kim" (안전)
+log("원본 테마: " + originalUser.settings.theme); // "light" (오염됨! 😱)
+
+// 2. 깊은 복사 (Deep Copy)
+const deepUser = structuredClone(originalUser);
+deepUser.settings.theme = "high-contrast";
+
+log("\\n--- 깊은 복사 결과 ---");
+log("원본 테마: " + originalUser.settings.theme); // "light" (기존 유지, 안전)
+log("깊은 복사본 테마: " + deepUser.settings.theme); // "high-contrast"`}
+        />
       </CollapsibleSection>
 
       <RelatedLinks

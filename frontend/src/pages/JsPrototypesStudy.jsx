@@ -134,30 +134,111 @@ log("Result: " + (Car.prototype === Object.getPrototypeOf(myCar))); // true`}
                   </div>
                 </div>
                 <div className="concepts" style={{ marginTop: '20px' }}>
-                  <div className="info-box success" style={{ borderLeft: '4px solid var(--accent-secondary)' }}>
+                   <div className="info-box success" style={{ borderLeft: '4px solid var(--accent-secondary)' }}>
                     <strong>🌟 Object.create() 실무 활용 Deep Dive</strong>
-                    <p>단순히 상속을 만드는 것을 넘어, 실무에서 이 함수가 빛을 발하는 3가지 결정적인 순간이 있습니다.</p>
+                    <p>단순히 상속을 만드는 것을 넘어, 실무에서 이 함수가 빛을 발하는 4가지 결정적인 순간이 있습니다.</p>
                   </div>
 
-                  <h4>1. '유전자가 없는' 순수 딕셔너리 만들기 (Pure Dictionary)</h4>
-                  <p>일반적으로 만드는 <code>{}</code>는 사실 자바스크립트의 조상인 <code>Object.prototype</code>의 자손입니다. 그래서 우리가 정의하지 않은 <code>toString</code> 같은 속성이 이미 들어있죠.</p>
-                  <p>하지만 <strong><code>Object.create(null)</code></strong>로 만들면 부모가 없는 '완벽한 무결성 객체'가 됩니다.</p>
+                  <h4>1. 실무 이유 ①: "기본 설정 객체"를 안전하게 확장할 때 (Safe Extension)</h4>
+                  <p><code>Object.create</code>를 실무에서 가장 많이 쓰는 강력한 이유 중 하나는 **"기본 설정값(Default Options)을 보호하면서 확장"**하는 패턴 때문입니다.</p>
+                  
+                  <div className="info-box danger" style={{ marginBottom: '15px' }}>
+                    <strong>❌ 흔한 실수: 얕은 복사(Spread)의 함정</strong>
+                    <p><code>const options = {'{ ...defaultOptions }'}</code> 방식은 1단계 depth만 복사합니다. 만약 <code>headers</code> 같은 내부 객체가 있다면, 자식의 수정이 부모(기본 설정)를 오염시킵니다.</p>
+                  </div>
+
+                  <LiveCodeEditor
+                    scopeId="js-proto-safe-config"
+                    initialHtml={consoleHtml}
+                    initialJs={`const defaultOptions = {
+  timeout: 3000,
+  headers: { 'Content-Type': 'application/json' }
+};
+
+// 1. [잘못된 예] 얕은 복사 (...)
+const badOptions = { ...defaultOptions };
+
+// 2. [권장 예] Object.create()
+const goodOptions = Object.create(defaultOptions);
+
+log("--- 1. 얕은 복사 오염 테스트 ---");
+badOptions.headers.Authorization = "Bearer Token"; // 내부 객체 주소 공유로 인해 발생
+log("Default Auth: " + defaultOptions.headers.Authorization); // "Bearer Token" (오염됨!)
+
+log("\\n--- 2. Object.create 안전성 테스트 ---");
+delete defaultOptions.headers.Authorization; // 초기화
+
+// 새로운 객체를 할당하는 방식으로 부모를 보호하며 확장
+goodOptions.headers = { ...defaultOptions.headers, Authorization: "Safe Token" };
+log("Default Auth: " + defaultOptions.headers.Authorization); // undefined (보호됨)
+log("Enhanced Auth: " + goodOptions.headers.Authorization); // "Safe Token"`}
+                  />
+
+                  <h4 style={{ marginTop: '30px' }}>2. 실무 이유 ②: "상속은 필요하지만 class는 과한 경우"</h4>
+                  <p><code>class</code>는 인스턴스를 많이 찍어낼 때 유용하지만, 단일 객체의 기능을 확장하거나 간단한 위임(Delegation)이 필요할 때는 <code>Object.create</code>가 훨씬 가볍고 직관적입니다.</p>
+                  
+                  <LiveCodeEditor
+                    scopeId="js-proto-delegation-simple"
+                    initialHtml={consoleHtml}
+                    initialJs={`const baseLogger = {
+  log: function(msg) { log(\`[\${this.label}] \${msg}\`); }
+};
+
+// 클래스 선언 없이 즉석에서 기능을 이어받은 특수 객체 생성
+const authLogger = Object.create(baseLogger);
+authLogger.label = "AUTH";
+
+const dbLogger = Object.create(baseLogger);
+dbLogger.label = "DB";
+
+authLogger.log("User logged in");
+dbLogger.log("Connection established");`}
+                  />
+
+                  <h4 style={{ marginTop: '30px' }}>3. 실무 이유 ③: "완전한 빈 객체"가 필요할 때 (Pure Dictionary)</h4>
+                  <p>일반 객체 <code>{}</code>는 <code>Object.prototype</code>을 상속받아 <code>toString</code> 등이 포함됩니다. <strong><code>Object.create(null)</code></strong>은 부모가 없는 완벽한 빈 상태를 만들어 보안과 안정성을 높입니다.</p>
+                  
                   <LiveCodeEditor
                     scopeId="js-proto-pure-dict"
                     initialHtml={consoleHtml}
-                    initialJs={`// 1. 일반 객체 (부모 있음)
-const normalObj = {};
-log("Normal: " + normalObj.toString); // function 있음
+                    initialJs={`// 일반 객체: __proto__ 가 Object.prototype을 가리킴
+const normal = {};
+log("Normal has toString? " + ('toString' in normal));
 
-// 2. 순수 객체 (부모 없음)
-const pureObj = Object.create(null);
-log("\\nPure: " + pureObj.toString); // undefined! 
+// 순수 객체: 조상이 아예 없음 (No Prototype Chain)
+const pure = Object.create(null);
+log("Pure has toString? " + ('toString' in pure)); 
 
-log("\\n--- 왜 쓰나요? ---");
-log("사용자 입력 데이터를 Key로 쓸 때, 'toString' 같은 이름이 들어와도\\n상속받은 기본 메서드와 충돌할 걱정이 전혀 없습니다. (보안 및 무결성)");`}
+log("\\n--- 보안 활용 예시 ---");
+const data = Object.create(null);
+data["user_input"] = "some value";
+// 사용자 입력이 "toString" 이어도 내장 메서드를 덮어씌울 걱정이 없습니다.`}
                   />
 
-                  <h4 style={{ marginTop: '30px' }}>2. 객체를 템플릿으로 쓰기 (Prototype Delegation)</h4>
+                  <h4 style={{ marginTop: '30px' }}>4. 실무 이유 ④: "상속 구조를 명확히 드러내고 싶을 때"</h4>
+                  <p>코드를 읽는 사람에게 이 객체가 어디서부터 왔는지(Ancestry)를 <code>Object.create</code>를 통해 명시적으로 보여줄 수 있습니다.</p>
+                  
+                  <LiveCodeEditor
+                    scopeId="js-proto-explicit-hierarchy"
+                    initialHtml={consoleHtml}
+                    initialJs={`const Component = { render: () => log("Rendering...") };
+const Button = Object.create(Component);
+Button.click = () => log("Button Clicked!");
+
+const SubmitButton = Object.create(Button);
+
+log("SubmitButton can render: " + ('render' in SubmitButton));
+log("SubmitButton can click: " + ('click' in SubmitButton));
+
+log("\\n--- 상속 계보 확인 ---");
+let parent = Object.getPrototypeOf(SubmitButton);
+while(parent) {
+  log("Inherited from: " + (parent === Button ? "Button" : "Component"));
+  parent = Object.getPrototypeOf(parent);
+}`}
+                  />
+
+                  <h4 style={{ marginTop: '30px' }}>5. 진짜 실무 예시: DOM 이벤트 핸들링 (EventTarget)</h4>
                   <p><code>class</code>나 <code>constructor</code>는 "이런 모양의 객체를 찍어내겠다"는 <strong>설계도</strong>를 미리 정의하는 방식입니다. 반면 <code>Object.create</code>는 이미 살아있는 <strong>'진짜 객체'</strong>를 템플릿으로 삼아 그 능력을 나눠줍니다.</p>
                   
                   <div className="info-box success" style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
@@ -375,7 +456,46 @@ log("Sibling is Child? " + (sibling instanceof Child));
                 </div>
             </CollapsibleSection>
 
-            <CollapsibleSection title="6. 주의: 빌트인 프로토타입 수정">
+            <CollapsibleSection title="6. Class Master: 최신 클래스 문법 (Private & Static)">
+                <div className="concepts">
+                    <p>현대 자바스크립트는 프로토타입을 더 편리하게 쓰기 위해 **캡슐화**와 **정적 속성**이라는 강력한 도구를 제공합니다.</p>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-class-master"
+                    initialHtml={consoleHtml}
+                    initialJs={`class Account {
+  // 1. Private Fields (#): 외부에서 절대 접근 불가 (완전 캡슐화)
+  #balance = 0;
+  
+  // 2. Static Block: 클래스가 로드될 때 딱 한 번 초기화 실행
+  static {
+    log("🏢 Account 시스템이 초기화되었습니다.");
+  }
+
+  constructor(owner) {
+    this.owner = owner;
+  }
+
+  deposit(amount) {
+    this.#balance += amount;
+    log(\`[\${this.owner}] \${amount}원 입금 완료\`);
+  }
+
+  check() {
+    log(\`잔액 확인: \${this.#balance}원\`);
+  }
+}
+
+const myAcc = new Account("Jennie");
+myAcc.deposit(5000);
+myAcc.check();
+
+// log(myAcc.#balance); // ❌ Syntax Error! (주석을 풀어보세요)
+log("외부에선 #balance를 볼 수 없지만, 내부적으론 프로토타입 메서드가 이를 완벽히 다룹니다.");`}
+                />
+            </CollapsibleSection>
+
+            <CollapsibleSection title="7. 주의: 빌트인 프로토타입 수정">
                 <div className="concepts">
                   <div className="info-box danger">
                     <strong>⚠️ 원숭이 패치 (Monkey Patching) 주의</strong>

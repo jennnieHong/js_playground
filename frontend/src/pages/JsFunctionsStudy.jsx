@@ -90,24 +90,55 @@ log("Expression Call (After Assignment): " + getSum(10, 20));`}
       <CollapsibleSection title="2. 화살표 함수 (Arrow Functions)">
         <div className="concepts">
           <p>모던 자바스크립트의 표준입니다. 문법이 간결하고 <code>this</code> 바인딩이 다릅니다.</p>
+          
+          <div className="info-box" style={{ marginTop: '15px' }}>
+            <strong>🎯 핵심 차이점: Lexical this</strong>
+            <ul>
+              <li><strong>일반 함수:</strong> 호출 방식에 따라 <code>this</code>가 동적으로 결정됩니다. (주로 호출한 객체)</li>
+              <li><strong>화살표 함수:</strong> 함수가 선언된 시점의 상위 스코프의 <code>this</code>를 그대로 계승합니다. (정적 바인딩)</li>
+            </ul>
+          </div>
         </div>
         <LiveCodeEditor
           scopeId="js-func-arrow"
           initialHtml={consoleHtml}
-          initialJs={`// 1. 기본형
-const multiply = (a, b) => {
-  return a * b;
+          initialJs={`// 1. 간결한 문법
+const square = n => n * n;
+log("Square: " + square(5));
+
+const getUser = (name) => ({ name: name, role: "Guest" });
+log("User: " + JSON.stringify(getUser("Alice")));
+
+// 2. this 바인딩 비교
+const timer = {
+  name: "MyTimer",
+  
+  // 일반 함수: 호출 시점에 this가 timer로 바인딩됨
+  regularFunc: function() {
+    log("\\n[Regular Function 호출]");
+    log("this.name: " + this.name);
+    
+    // 내부 비동기 콜백에서 문제 발생
+    setTimeout(function() {
+      // 일반 함수 콜백 내부의 this는 전역 혹은 undefined
+      log("Inside Timeout (Regular): " + (this ? this.name : "undefined")); 
+    }, 100);
+  },
+  
+  // 화살표 함수: 상위 스코프(timer)의 this를 계승
+  arrowFunc: function() {
+    log("\\n[Arrow Function 호출]");
+    log("this.name: " + this.name);
+    
+    setTimeout(() => {
+      // 화살표 함수는 자신만의 this가 없어서 timer를 그대로 사용함
+      log("Inside Timeout (Arrow): " + this.name);
+    }, 200);
+  }
 };
 
-// 2. 축약형 (본문이 한 줄이면 return 생략)
-const square = n => n * n;
-
-log("Multiply Result: " + multiply(5, 4));
-log("Square Result: " + square(9));
-
-// 3. 객체 반환 시 주의점 (소괄호 필수)
-const getUser = (name) => ({ name: name, role: "Guest" });
-log("User Object: " + JSON.stringify(getUser("Alice")));`}
+timer.regularFunc();
+timer.arrowFunc();`}
         />
       </CollapsibleSection>
 
@@ -226,6 +257,196 @@ try {
         />
       </CollapsibleSection>
 
+      <CollapsibleSection title="5. Function Master: this의 명시적 바인딩 (call, apply, bind)">
+        <div className="concepts">
+          <p>화살표 함수가 아닌 일반 함수는 `this`가 동적으로 변합니다. 이를 **강제로 고정**시키거나 제어하는 세 가지 도구입니다.</p>
+          <div className="info-grid">
+            <div className="info-card">
+              <h5 style={{ margin: 0 }}>📞 call / apply</h5>
+              <p style={{ fontSize: '0.8rem' }}>함수를 즉시 호출합니다. `call`은 인자를 낱개로, `apply`는 배열로 전달합니다.</p>
+            </div>
+            <div className="info-card">
+              <h5 style={{ margin: 0 }}>🔗 bind</h5>
+              <p style={{ fontSize: '0.8rem' }}>함수를 호출하지 않고, `this`가 고정된 **새로운 함수**를 반환합니다.</p>
+            </div>
+          </div>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-func-this-master"
+          initialHtml={consoleHtml}
+          initialJs={`const person = { name: "Jennie" };
+function greet(city, age) {
+  log(\`안녕하세요, \${city}에 사는 \${age}살 \${this.name}입니다.\`);
+}
+
+// 1. call (낱개 전달)
+greet.call(person, "서울", 25);
+
+// 2. apply (배열 전달)
+const info = ["부산", 24];
+greet.apply(person, info);
+
+// 3. bind (영구 결합)
+const jennieGreet = greet.bind(person, "인천");
+jennieGreet(26);`}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="6. Function Master: 고난도 패턴 (Currying & Memoization)">
+        <div className="concepts">
+          <p>함수의 실행 속도를 높이거나(Memoization), 인자를 나누어 처리하는(Currying) 고급 설계 기법입니다.</p>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-func-patterns"
+          initialHtml={consoleHtml}
+          initialJs={`/**
+ * 1. Memoization: 캐싱을 통해 연산 속도 최적화
+ */
+function memoizedSquare() {
+  const cache = {};
+  return function(n) {
+    if (n in cache) {
+      log("⚡ [Cache Hit] " + n);
+      return cache[n];
+    }
+    log("🐢 [Calculating...] " + n);
+    const result = n * n;
+    cache[n] = result;
+    return result;
+  };
+}
+
+const square = memoizedSquare();
+square(5);
+square(5); // 캐시된 결과 사용
+
+/**
+ * 2. Currying: f(a, b, c) -> f(a)(b)(c)
+ */
+const multiply = a => b => c => a * b * c;
+log("\\nCurried Multiply (2*3*4): " + multiply(2)(3)(4));`}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="7. Function Master: 재귀와 스택 (Recursion)">
+        <div className="concepts">
+          <p>함수가 자기 자신을 호출하는 방식입니다. 복잡한 자료구조(Tree, JSON)를 탐색할 때 필수적입니다.</p>
+          <div className="info-box danger">
+             <strong>⚠️ Stack Overflow 주의</strong>
+             <p>종료 조건(Base Case)이 없으면 메모리가 가득 차서 브라우저가 멈춥니다.</p>
+          </div>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-func-recursion"
+          initialHtml={consoleHtml}
+          initialJs={`// 피보나치 수열 (재귀 버전)
+function fibo(n) {
+  if (n <= 1) return n; // 종료 조건
+  return fibo(n - 1) + fibo(n - 2);
+}
+
+log("Fibo(6): " + fibo(6));
+
+// 실무 응용: 폴더 구조 탐색 시뮬레이션
+const folders = {
+  name: "Root",
+  children: [
+    { name: "src", children: [{ name: "index.js" }] },
+    { name: "dist" }
+  ]
+};
+
+function readFolders(folder, depth = 0) {
+  log("  ".repeat(depth) + "📁 " + folder.name);
+  if (folder.children) {
+    folder.children.forEach(child => readFolders(child, depth + 1));
+  }
+}
+
+readFolders(folders);`}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="6. 현대적 할당 마스터: Default Params & Logical Assignment">
+        <div className="concepts">
+          <p>함수의 안전성을 높이고 코드를 획기적으로 줄여주는 할당 문법들을 마스터합니다.</p>
+          
+          <div className="info-grid">
+            <div className="info-card">
+              <h4 style={{ color: '#2563eb' }}>📦 Default Parameters (ES6)</h4>
+              <p style={{ fontSize: '0.85rem' }}>매개변수가 <code>undefined</code>일 때만 기본값이 적용됩니다. 과거의 <code>||</code> 방식과 달리 <strong>0이나 빈 문자열</strong>을 유효한 값으로 취급할 수 있어 훨씬 안전합니다.</p>
+            </div>
+            <div className="info-card">
+              <h4 style={{ color: '#059669' }}>⚡ Logical Assignment (ES2021)</h4>
+              <p style={{ fontSize: '0.85rem' }}><code>||=</code>, <code>&&=</code>, <code>??=</code> 연산자는 조건 체크와 할당을 동시에 처리합니다. 불필요한 할당을 막고 의도를 명확히 합니다.</p>
+            </div>
+          </div>
+
+          <div className="info-table-wrapper">
+            <table className="info-table">
+              <thead>
+                <tr>
+                  <th>연산자</th>
+                  <th>설명</th>
+                  <th>동일한 코드</th>
+                  <th>지원 버전</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>||=</code></td>
+                  <td>falsy일 때만 할당</td>
+                  <td><code>a || (a = b)</code></td>
+                  <td>ES2021 (최신)</td>
+                </tr>
+                <tr>
+                  <td><code>&&=</code></td>
+                  <td>truthy일 때만 할당</td>
+                  <td><code>a && (a = b)</code></td>
+                  <td>ES2021 (최신)</td>
+                </tr>
+                <tr>
+                  <td><code>??=</code></td>
+                  <td>nullish일 때만 할당</td>
+                  <td><code>a ?? (a = b)</code></td>
+                  <td>ES2021 (최신)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '10px' }}>⚠️ <strong>호환성 경고</strong>: ES2021 문법은 오래된 브라우저(IE 등)에서 전혀 동작하지 않으므로, 실무에서는 Babel 트랜스파일링이 필수입니다.</p>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-modern-assignment"
+          initialHtml={consoleHtml}
+          initialJs={`// 1. Default Parameters (ES6)
+function greet(name = "Anonymous", count = 0) {
+  log(\`Hello \${name}! Your score is \${count}.\`);
+}
+
+greet();                // Hello Anonymous! Your score is 0.
+greet("Jennie", 100);    // Hello Jennie! Your score is 100.
+greet(undefined, 0);    // Hello Anonymous! Your score is 0. (undefined만 기본값 작동)
+
+log("\\n--- Logical Assignment (ES2021) ---");
+
+// 2. ||= (Or Assignment) - 설정값이 없을 때 채워넣기
+let config = { theme: "" };
+config.theme ||= "dark"; 
+log("Theme: " + config.theme); // "dark" (빈 문자열이 falsy라 할당됨)
+
+// 3. ??= (Nullish Assignment) - 실제 데이터(0, "")는 보존하고 null/undef만 처리
+let score = 0;
+score ??= 100;
+log("Score: " + score); // 0 (0은 nullish가 아니므로 100이 할당되지 않음! 안전함)
+
+// 4. &&= (And Assignment) - 데이터가 있을 때만 업데이트
+let user = { loggedIn: true, name: "Guest" };
+user.name &&= "Member"; // user.name이 있으므로 "Member"로 업데이트
+log("User: " + user.name);`}
+        />
+      </CollapsibleSection>
+
       <style>{`
         .info-table-wrapper { margin: 15px 0; overflow-x: auto; }
         .info-table { width: 100%; border-collapse: collapse; background: var(--bg-secondary); border-radius: 8px; font-size: 0.9rem; }
@@ -233,6 +454,7 @@ try {
         .info-table th { background: var(--bg-tertiary); color: var(--text-primary); }
         .info-table td { color: var(--text-secondary); line-height: 1.5; }
       `}</style>
+
       <RelatedLinks
         links={[
           {

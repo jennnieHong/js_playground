@@ -39,6 +39,10 @@ import JsCssAnimationsStudy from './pages/JsCssAnimationsStudy';
 import JsMapSetStudy from './pages/JsMapSetStudy';
 import JsAdvancedJsStudy from './pages/JsAdvancedJsStudy';
 import JsWebStorageStudy from './pages/JsWebStorageStudy';
+import JsSymbolStudy from './pages/JsSymbolStudy';
+import JsRegExpStudy from './pages/JsRegExpStudy';
+import JsStringMethodsStudy from './pages/JsStringMethodsStudy';
+import JsRegExpQuiz from './pages/JsRegExpQuiz';
 
 
 import './styles/main.css';
@@ -90,6 +94,10 @@ function App() {
             <Route path="/js/precision" element={<JsNumberPrecisionStudy />} />
             <Route path="/js/type-checking" element={<JsTypeCheckingStudy />} />
             <Route path="/js/prototypes" element={<JsPrototypesStudy />} />
+            <Route path="/js/symbol" element={<JsSymbolStudy />} />
+            <Route path="/js/regexp" element={<JsRegExpStudy />} />
+            <Route path="/js/regexp-quiz" element={<JsRegExpQuiz />} />
+            <Route path="/js/string-methods" element={<JsStringMethodsStudy />} />
 
             <Route path="/js-css/dom-styling" element={<JsCssDomStudy />} />
             <Route path="/js-css/variables" element={<JsCssVariablesStudy />} />

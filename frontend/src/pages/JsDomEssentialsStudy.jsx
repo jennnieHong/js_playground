@@ -48,6 +48,45 @@ const JsDomEssentialsStudy = () => {
                         </div>
                     </div>
 
+                    <div className="info-card" style={{ gridColumn: '1 / -1', borderLeft: '4px solid #059669', background: '#f0fdf4', marginTop: '1.5rem' }}>
+                        <h4 style={{ color: '#059669' }}>🔤 Node.TEXT_NODE (3) 깊이 알기</h4>
+                        <p>태그 사이에 들어 있는 <strong>“문자 데이터 자체”</strong>를 의미합니다.</p>
+                        <p style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                            HTML에서 사람이 보는 글자, 공백, 줄바꿈은 모두 <code>TEXT_NODE</code>로 따로 분리되어 저장됩니다.
+                        </p>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginTop: '1rem' }}>
+                            <div style={{ background: '#fff', padding: '1rem', borderRadius: '8px', border: '1px solid #bcf0da' }}>
+                                <strong style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem' }}>2️⃣ 예제로 바로 감각 잡기</strong>
+                                <pre style={{ fontSize: '0.75rem', background: '#f8fafc', padding: '10px', borderRadius: '4px', overflowX: 'auto', margin: 0 }}>
+                                    {`<h1>Hello <span>World</span> !</h1>
+
+DOM 트리 (진짜 모습)
+h1 (ELEMENT_NODE)
+├─ TEXT_NODE   "Hello "
+├─ span (ELEMENT_NODE)
+│  └─ TEXT_NODE "World"
+└─ TEXT_NODE   " !"`}
+                                </pre>
+                            </div>
+                            <div style={{ background: '#fff', padding: '1rem', borderRadius: '8px', border: '1px solid #bcf0da' }}>
+                                <strong style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem' }}>3️⃣ “그럼 줄바꿈도 TEXT_NODE야?”</strong>
+                                <p style={{ fontSize: '0.8rem', marginBottom: '8px' }}>정확히 그렇습니다. 공백과 줄바꿈도 엄연한 노드입니다.</p>
+                                <pre style={{ fontSize: '0.75rem', background: '#f8fafc', padding: '10px', borderRadius: '4px', overflowX: 'auto', margin: 0 }}>
+                                    {`<h1>
+  Hello
+</h1>
+
+DOM 구조:
+- TEXT_NODE "\\n  "
+- TEXT_NODE "Hello"
+- TEXT_NODE "\\n"`}
+                                </pre>
+                                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '8px' }}>그래서 <code>childNodes</code>가 괜히 많아 보이는 겁니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="info-box" style={{ background: '#f0fdf4', border: '1px solid #bcf0da', marginTop: '1.5rem' }}>
                         <strong style={{ color: '#065f46' }}>💡 왜 구분해야 하나요?</strong>
                         <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', color: '#065f46', lineHeight: '1.6' }}>

@@ -147,6 +147,101 @@ log("\\n투표 결과: " + JSON.stringify(stats));`}
                 />
             </CollapsibleSection>
 
+            <CollapsibleSection title="4. Array Master: 배열의 내부 구조 (Sparse vs Dense)">
+                <div className="concepts">
+                    <p>자바스크립트 배열은 사실 **객체**입니다. 하지만 엔진(V8 등)은 성능을 위해 두 가지 방식으로 최적화합니다.</p>
+                    <div className="info-grid">
+                        <div className="info-card" style={{ background: '#f0fdf4' }}>
+                            <h5 style={{ margin: 0 }}>🚀 Dense (Packed) Array</h5>
+                            <p style={{ fontSize: '0.8rem' }}>요소가 빈틈없이 꽉 찬 배열. 메모리 효율이 좋고 매우 빠릅니다.</p>
+                        </div>
+                        <div className="info-card" style={{ background: '#fef2f2' }}>
+                            <h5 style={{ margin: 0 }}>🐢 Sparse (Holey) Array</h5>
+                            <p style={{ fontSize: '0.8rem' }}>중간중간 구멍(empty)이 숭숭 뚫린 배열. 객체처럼 동작하여 성능이 떨어집니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-array-mechanics"
+                    initialHtml={consoleHtml}
+                    initialJs={`// 1. Dense Array: 일반적인 배열 제작
+const dense = [1, 2, 3, 4, 5];
+
+// 2. Sparse Array: 구멍 만들기
+const sparse = [1, , , 4]; // 1번, 2번 인덱스가 비어있음
+log("Sparse Length: " + sparse.length);
+log("Index 1: " + sparse[1]); // undefined
+
+// 성능 팁: 가급적 구멍이 없는 배열을 유지하는 것이 좋습니다.
+// Array(100) 처럼 미리 공간을 만들고 나중에 채우는 것보다
+// 처음부터 값을 넣거나 Array.from()을 쓰는 것이 최적화에 유리합니다.`}
+                />
+            </CollapsibleSection>
+
+            <CollapsibleSection title="5. Array Master: 고급 메서드 (flatMap, fill, copyWithin)">
+                <div className="concepts">
+                    <p>단순한 가공을 넘어, 배열의 구조를 바꾸거나 대량의 데이터를 초기화할 때 유용한 도구들입니다.</p>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-array-advanced"
+                    initialHtml={consoleHtml}
+                    initialJs={`/**
+ * 1. flatMap: Map + Flat (1단계 평탄화까지 한 번에!)
+ */
+const sentences = ["Hello world", "JS is Awesome"];
+const words = sentences.flatMap(s => s.split(" "));
+log("flatMap result: " + JSON.stringify(words));
+
+/**
+ * 2. fill: 배열을 특정 값으로 채우기
+ */
+const emptyArr = new Array(5).fill("⭐");
+log("fill result: " + emptyArr);
+
+/**
+ * 3. Array.from: 유사 배열이나 반복 가능한 객체를 배열로 변환
+ */
+const set = new Set([1, 2, 2, 3]);
+const arrayFromSet = Array.from(set, x => x * 10);
+log("Array.from result: " + arrayFromSet);`}
+                />
+            </CollapsibleSection>
+
+            <CollapsibleSection title="6. Array Master: 성능과 반복문 비교">
+                <div className="concepts">
+                    <p>수만 개의 데이터를 다룰 때 어떤 반복문이 가장 빠를까요? **가독성 vs 성능**의 트레이드오프를 이해해야 합니다.</p>
+                </div>
+                <LiveCodeEditor
+                    scopeId="js-array-perf"
+                    initialHtml={consoleHtml}
+                    initialJs={`const bigData = new Array(100000).fill(1);
+
+log("--- 10만 건 합산 테스트 ---");
+
+// 1. 전통적인 for문 (가장 빠름)
+console.time("for");
+let sum1 = 0;
+for (let i = 0; i < bigData.length; i++) { sum1 += bigData[i]; }
+console.timeEnd("for");
+log("Traditional 'for' complete");
+
+// 2. forEach (가독성 좋음, 중간 성능)
+console.time("forEach");
+let sum2 = 0;
+bigData.forEach(v => sum2 += v);
+console.timeEnd("forEach");
+log("forEach complete");
+
+// 3. reduce (가장 깔끔하지만 약간의 함수 호출 오버헤드)
+console.time("reduce");
+const sum3 = bigData.reduce((acc, cur) => acc + cur, 0);
+console.timeEnd("reduce");
+log("reduce complete");
+
+log("\\n💡 결론: 일반적인 상황에선 '복잡도를 낮추는' 고차 함수(map, filter)가 정답입니다. 성능이 미세하게 중요한 특수 상황(게임 엔진, 대량 로그 분석)에서만 for문을 고려하세요.");`}
+                />
+            </CollapsibleSection>
+
             <style>{`
               .info-table-wrapper { margin: 15px 0; overflow-x: auto; }
               .info-table { width: 100%; border-collapse: collapse; background: var(--bg-secondary); border-radius: 8px; font-size: 0.9rem; }

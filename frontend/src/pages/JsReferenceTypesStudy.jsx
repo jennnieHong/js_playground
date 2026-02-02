@@ -140,7 +140,24 @@ log("obj1 === obj2: " + (obj1 === obj2)); // false (주소가 다름!)`}
         <LiveCodeEditor
           scopeId="js-ref-distinguish"
           initialHtml={consoleHtml}
-          initialJs={`function processData(data) {
+          initialJs={`const arr = [1, 2, 3];
+const obj = { id: 1 };
+
+log("--- 1. typeof의 한계 ---");
+log("typeof arr: " + typeof arr); // "object"
+log("typeof obj: " + typeof obj); // "object"
+
+log("\\n--- 2. 확실하게 구분하기 (배열 판별) ---");
+// 방법 A: Array.isArray() - 최신 표준, 가장 안전함
+log("Array.isArray(arr): " + Array.isArray(arr)); // true
+log("Array.isArray(obj): " + Array.isArray(obj)); // false
+
+// 방법 B: instanceof Array - 프로토타입 체인 확인
+log("\\narr instanceof Array: " + (arr instanceof Array));   // true
+log("obj instanceof Array: " + (obj instanceof Array));   // false
+
+log("\\n--- 3. 실전 분기 처리 함수 ---");
+function processData(data) {
   if (Array.isArray(data)) {
     log("입력값은 [배열]입니다. 순회를 시작합니다.");
     log("Result: " + data.map(x => x * 2));
@@ -152,14 +169,7 @@ log("obj1 === obj2: " + (obj1 === obj2)); // false (주소가 다름!)`}
   }
 }
 
-log("--- Test 1 (Array) ---");
-processData([1, 2, 3]);
-
-log("\\n--- Test 2 (Object) ---");
-processData({ id: 1, name: "Antigravity" });
-
-log("\\n--- Test 3 (Null) ---");
-processData(null); // null은 typeof가 'object'이므로 별도 처리가 필요!`}
+processData([10, 20]);`}
         />
       </CollapsibleSection>
 
@@ -213,7 +223,7 @@ processData(null); // null은 typeof가 'object'이므로 별도 처리가 필�
         <LiveCodeEditor
           scopeId="js-ref-json"
           initialHtml={consoleHtml}
-          initialJs={`const jsonResponse = '{"name": "Antigravity", "tags": ["AI", "Agent"]}';
+          initialJs={`const jsonResponse = '{"name": "javascript", "tags": ["AI", "Agent"]}';
 
 function handleData(input) {
   // 1. 우선 JSON(문자열)인지 확인
@@ -297,36 +307,105 @@ try {
             <table className="info-table">
               <thead>
                 <tr>
-                  <th>대상</th>
-                  <th>사용할 도구</th>
+                  <th>구분</th>
+                  <th>사용 도구</th>
                   <th>결과 예시</th>
+                  <th>설명</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>원시 타입</td>
                   <td><code>typeof</code></td>
-                  <td>"number", "string", "boolean"...</td>
+                  <td>"string", "number" 등</td>
+                  <td>객체가 아닌 기본 값을 확인할 때 사용합니다.</td>
                 </tr>
                 <tr>
-                  <td>객체/배열</td>
+                  <td>객체 종류</td>
                   <td><code>typeof</code></td>
                   <td>"object" (모두 동일함)</td>
-                </tr>
-                <tr>
-                  <td>구체적 종류</td>
                   <td><code>instanceof</code></td>
-                  <td>arr instanceof Array (true)</td>
+                  <td>true / false</td>
+                  <td>어떤 클래스(생성자)로 만들어졌는지 확인할 때 씁니다.</td>
                 </tr>
                 <tr>
                   <td>배열 여부</td>
                   <td><code>Array.isArray()</code></td>
                   <td>true / false</td>
+                  <td>가장 확실하게 배열을 판별하는 표준 방법입니다.</td>
+                </tr>
+                <tr>
+                  <td>널 체크</td>
+                  <td><code>=== null</code></td>
+                  <td>true / false</td>
+                  <td>typeof null이 "object"이므로 반드시 이 방식으로 체크해야 합니다.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </CollapsibleSection>
+
+      <CollapsibleSection title="8. Memory Master: 자바스크립트의 메모리 생명주기">
+        <div className="concepts">
+          <p>모든 프로그래밍 언어의 메모리 관리는 **할당 &rarr; 사용 &rarr; 해제**의 세 단계를 거칩니다. 자바스크립트는 이를 **가비지 컬렉터(GC)**가 자동으로 수행합니다.</p>
+          <div className="info-grid">
+            <div className="info-card" style={{ background: '#f0f9ff' }}>
+              <h5 style={{ margin: 0 }}>📍 Stack (원시 값)</h5>
+              <p style={{ fontSize: '0.8rem' }}>크기가 고정된 데이터가 저장됩니다. 매우 빠르고 정돈된 상자들과 같습니다.</p>
+            </div>
+            <div className="info-card" style={{ background: '#fff7ed' }}>
+              <h5 style={{ margin: 0 }}>🏗️ Heap (참조 값)</h5>
+              <p style={{ fontSize: '0.8rem' }}>객체처럼 크기가 유동적인 데이터가 자유롭게 담깁니다. 큰 창고와 같습니다.</p>
+            </div>
+          </div>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-mem-master"
+          initialHtml={consoleHtml}
+          initialJs={`/**
+ * 🧹 가비지 컬렉션의 핵심: '도달 가능성(Reachability)'
+ * 마크 앤 스윕(Mark-and-Sweep) 알고리즘은 루트(Global 등)에서부터
+ * 연결되지 않은 모든 메모리를 지워버립니다.
+ */
+let user = { name: "Jennie" }; // Heap에 객체 생성, user는 주소를 가리킴
+
+user = null; // 이제 Heap의 객체는 누구도 가리키지 않음 (도달 불능)
+log("객체 연결 해제됨. 다음 GC 사이클에 메모리에서 사라집니다.");
+
+/**
+ * 💡 주의: 메모리 누수(Memory Leak)
+ * 지워져야 할 데이터가 전역 변수나 클로저에 의해 실수로 '참조'되고 있다면 
+ * GC가 지우지 못해 메모리가 쌓입니다.
+ */`}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="9. Memory Master: Pass by Sharing (참조의 진실)">
+        <div className="concepts">
+          <p>"자바스크립트는 참조 전달인가요?" 라는 질문의 정확한 답은 **"참조 값의 복사(Pass by Sharing)"**입니다.</p>
+        </div>
+        <LiveCodeEditor
+          scopeId="js-pass-master"
+          initialHtml={consoleHtml}
+          initialJs={`/**
+ * 🧐 참조를 '값'으로 넘긴다는 것의 의미
+ */
+function update(obj) {
+  // 1. 객체의 알맹이를 바꾸는 건 영향이 감 (공유된 주소니까)
+  obj.score = 100;
+  
+  // 2. 하지만 매개변수에 아예 새 객체를 할당하는 건 영향 없음
+  // (내부적으로 복사된 '주소값'이라는 변수 자체가 바뀐 것이기 때문)
+  obj = { score: 0 }; 
+}
+
+let player = { score: 10 };
+update(player);
+
+log("Final Score: " + player.score); // 100! (0 이 아님)
+log("이것이 주소값을 '복사'해서 넘긴다는 증거입니다.");`}
+        />
       </CollapsibleSection>
 
       <RelatedLinks

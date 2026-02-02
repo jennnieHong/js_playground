@@ -45,7 +45,7 @@ const JsMapSetStudy = () => {
                     initialJs={`// 1. Map 생성 및 기본 메서드
 const myMap = new Map();
 
-myMap.set('name', 'Antigravity');
+myMap.set('name', 'javascript');
 myMap.set(1, 'Number one');
 const objKey = { id: 10 };
 myMap.set(objKey, 'Object as key');
