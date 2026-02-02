@@ -133,6 +133,16 @@ function PageProgressDots() {
         }
     };
 
+    const scrollToTop = (e) => {
+        e.stopPropagation();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const scrollToBottom = (e) => {
+        e.stopPropagation();
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    };
+
     if (sections.length === 0) return null;
 
     const dragStyle = position.x !== null ? {
@@ -153,19 +163,39 @@ function PageProgressDots() {
             aria-label="Page navigation"
         >
             <div className="dots-container">
-                {sections.map(section => (
-                    <div
-                        key={section.id}
-                        className={`dot-wrapper ${activeId === section.id ? 'active' : ''}`}
-                        onClick={(e) => scrollToSection(e, section.id)}
-                    >
-                        <span className="dot-tooltip">{section.title}</span>
-                        <button
-                            className="dot-button"
-                            aria-label={`Scroll to ${section.title}`}
-                        />
-                    </div>
-                ))}
+                <button 
+                    className="scroll-trigger top" 
+                    onClick={scrollToTop}
+                    title="맨 위로"
+                    aria-label="Scroll to top"
+                >
+                    <span className="arrow-icon">▲</span>
+                </button>
+
+                <div className="dots-list">
+                    {sections.map(section => (
+                        <div
+                            key={section.id}
+                            className={`dot-wrapper ${activeId === section.id ? 'active' : ''}`}
+                            onClick={(e) => scrollToSection(e, section.id)}
+                        >
+                            <span className="dot-tooltip">{section.title}</span>
+                            <button
+                                className="dot-button"
+                                aria-label={`Scroll to ${section.title}`}
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                <button 
+                    className="scroll-trigger bottom" 
+                    onClick={scrollToBottom}
+                    title="맨 아래로"
+                    aria-label="Scroll to bottom"
+                >
+                    <span className="arrow-icon">▼</span>
+                </button>
             </div>
         </nav>
     );
