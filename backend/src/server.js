@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import config from './config/config.js';
 import menuRoutes from './routes/menu.js';
+import settingsRoutes from './routes/settings.js';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/menus', menuRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

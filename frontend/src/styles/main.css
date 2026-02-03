@@ -60,6 +60,13 @@
   --nav-width: 280px;
   --nav-width-collapsed: 48px;
   --header-height: 60px;
+
+  /* Dynamic Design Tokens (Overridden by DB) */
+  --base-font-size: 16px;
+  --page-title-size: 2rem;
+  --page-subtitle-size: 1rem;
+  --section-title-size: 1.5rem;
+  --code-font-size: 0.85rem;
 }
 
 /* Dark Mode Variables */
@@ -81,7 +88,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: var(--base-font-size, 16px);
   scroll-behavior: smooth;
   background-color: var(--bg-primary);
   /* Prevents white flash */

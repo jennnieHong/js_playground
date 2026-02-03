@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HeaderSearch from './components/HeaderSearch';
@@ -54,6 +54,30 @@ function App() {
 
   const toggleNav = useCallback(() => {
     setIsNavCollapsed(prev => !prev);
+  }, []);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+        const response = await fetch(`${baseUrl}/settings`);
+        const result = await response.json();
+        
+        if (result.success) {
+          const root = document.documentElement;
+          Object.entries(result.data).forEach(([key, value]) => {
+            // key: 'page_title_size' -> variable: '--page-title-size'
+            const variableName = `--${key.replace(/_/g, '-')}`;
+            root.style.setProperty(variableName, value);
+          });
+          console.log('Dynamic settings applied:', result.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch dynamic settings:', error);
+      }
+    };
+
+    fetchSettings();
   }, []);
 
   return (
